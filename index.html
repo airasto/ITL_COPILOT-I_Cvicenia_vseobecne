@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Microsoft Copilot prakticky I. - prompty na cvičenia | IT Learning</title>
+<link rel="icon" href="logo-itlearning.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--soft:#F2F8FE;--soft2:#E6F2FD;--line:#D3E5F5;--blue:#1266A3;--sky:#179CFA;--ink:#0F2B44;--muted:#526C84;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(130px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 Barlow,"Segoe UI",Arial,sans-serif}
+h1,h2,h3{font-family:"Barlow Semi Condensed",Barlow,"Segoe UI",Arial,sans-serif;line-height:1.15;margin:0}
+a{color:var(--blue)}
+.wrap{max-width:980px;margin:0 auto;padding:0 22px}
+header.top{background:var(--soft);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:10px;padding-bottom:10px}
+header.top img{height:70px;width:auto;display:block}
+header.top .kurz{color:var(--muted);font-size:15px;text-align:right}
+.hero{padding-top:40px;padding-bottom:8px}
+.hero h1{font-size:clamp(34px,5vw,48px);color:var(--blue);font-weight:700}
+.hero .sub{font-size:20px;margin:6px 0 0;color:var(--ink)}
+.kroky{display:grid;grid-template-columns:repeat(3,1fr);margin:28px 0 0;padding:0;list-style:none;counter-reset:k;border-top:3px solid var(--blue)}
+.kroky li{counter-increment:k;padding:16px 20px 6px 0}
+.kroky li::before{content:counter(k);font:700 30px/1 "Barlow Semi Condensed",sans-serif;color:var(--sky);display:block;margin-bottom:6px}
+.kroky b{display:block;font-weight:600}
+.kroky span{color:var(--muted);font-size:15.5px}
+.vyber{margin:26px 0 0;padding:20px 22px 22px;border:2px solid var(--sky);border-radius:10px;background:#fff}
+.vyber h2{font-size:26px;color:var(--blue)}
+.vyber p{margin:4px 0 14px;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{font:600 17px Barlow,sans-serif;border:1px solid var(--line);background:var(--soft);color:var(--ink);padding:12px 14px;border-radius:8px;text-align:left;cursor:pointer}
+.tile:hover{border-color:var(--blue);color:var(--blue)}
+.tile[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.vyber.ok{border-color:var(--line)}
+.info{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;margin:30px 0 8px}
+.info > div{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:18px 22px}
+.info h2{font-size:22px;color:var(--blue);margin-bottom:8px}
+.info ol,.info ul{margin:0;padding-left:20px}
+.info li{margin:3px 0}
+.info .pozor{background:#fff;border-color:var(--sky)}
+nav.filtre{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line);margin-top:26px}
+nav.filtre .wrap{padding-top:10px;padding-bottom:10px}
+.rad{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.rad + .rad{margin-top:8px}
+.rad .lbl{font-size:14px;color:var(--muted);margin-right:4px;min-width:72px}
+.chip{font:500 15px Barlow,sans-serif;border:1px solid var(--line);background:#fff;color:var(--ink);padding:5px 13px;border-radius:999px;cursor:pointer}
+.chip:hover{border-color:var(--blue);color:var(--blue)}
+.chip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.chip b{font-weight:700;margin-right:3px}
+.pocet{margin-left:auto;font-size:14px;color:var(--muted)}
+section.modul{padding:40px 0 6px}
+.mhead{display:grid;grid-template-columns:auto 1fr;gap:2px 18px;align-items:baseline;border-bottom:3px solid var(--blue);padding-bottom:12px}
+.mhead .num{grid-row:span 2;font:700 60px/0.9 "Barlow Semi Condensed",sans-serif;color:var(--sky)}
+.mhead h2{font-size:30px;color:var(--blue)}
+.mhead p{margin:0;color:var(--muted)}
+article.ul{border-bottom:1px solid var(--line);padding:22px 0 24px}
+.uhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.uhead .id{font:700 19px "Barlow Semi Condensed",sans-serif;color:var(--sky);min-width:32px}
+.uhead h3{font:600 21px/1.25 Barlow,sans-serif;color:var(--ink)}
+.badge{font-size:13.5px;padding:2px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--line);color:var(--blue);font-weight:500}
+.badge.odd{background:var(--soft2);border-color:#B9D9F4}
+.lab{display:block;font-size:14px;font-weight:600;color:var(--blue);margin:14px 0 3px}
+.ul p{margin:0;max-width:75ch}
+.pbox{position:relative;margin:6px 0 0;background:var(--soft);border-left:4px solid var(--blue);border-radius:0 8px 8px 0}
+.pbox pre{margin:0;padding:16px 18px 18px;white-space:pre-wrap;overflow-wrap:anywhere;font:400 16.5px/1.55 Barlow,"Segoe UI",Arial,sans-serif;color:var(--ink)}
+.ph{background:#fff;color:var(--blue);font-weight:600;border:1px dashed var(--sky);border-radius:4px;padding:0 3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.akcie{display:flex;justify-content:flex-end;padding:0 12px 12px}
+.copy{font:600 15px Barlow,sans-serif;background:var(--blue);color:#fff;border:0;border-radius:6px;padding:7px 16px;cursor:pointer;min-width:118px}
+.copy:hover{background:#0d5487}
+.copy.ok{background:#1b8a4e}
+.copy:focus-visible,.chip:focus-visible,.tile:focus-visible,.dalej button:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.dalej{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:6px}
+.dalej li{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:8px;padding:8px 8px 8px 14px}
+.dalej li span{padding-top:3px}
+.dalej button{flex:none;font:600 14px Barlow,sans-serif;background:#fff;color:var(--blue);border:1px solid var(--blue);border-radius:6px;padding:4px 12px;cursor:pointer}
+.dalej button.ok{background:#1b8a4e;border-color:#1b8a4e;color:#fff}
+.podk{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:4px}
+.podk li{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.podk a{font-weight:600;overflow-wrap:anywhere}
+.podk span{color:var(--muted);font-size:15.5px}
+.zip{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:30px 0 0;padding:14px 18px;border:1px solid var(--line);border-radius:10px}
+.zip a.btn{font:600 16px Barlow,sans-serif;background:var(--blue);color:#fff;text-decoration:none;border-radius:6px;padding:8px 18px}
+.zip a.btn:hover{background:#0d5487}
+.zip a.btn:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.zip span{color:var(--muted);font-size:15.5px}
+.preco{margin-top:4px;color:var(--ink)}
+.prazdne{padding:40px 0;color:var(--muted)}
+.vyzva{margin:40px 0;padding:28px 24px;border:1px dashed var(--sky);border-radius:10px;background:var(--soft);text-align:center;color:var(--ink)}
+.vyzva b{display:block;font:700 24px "Barlow Semi Condensed",sans-serif;color:var(--blue);margin-bottom:4px}
+footer{margin-top:50px;background:var(--soft);border-top:1px solid var(--line);padding:22px 0;color:var(--muted);font-size:15px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media (max-width:760px){
+ .wrap{padding:0 16px}
+ header.top img{height:52px}
+ header.top .kurz{font-size:13.5px}
+ .kroky{grid-template-columns:1fr}
+ .info{grid-template-columns:1fr}
+ .tiles{grid-template-columns:1fr 1fr}
+ .vyber{padding:16px}
+ .rad{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .rad::-webkit-scrollbar{display:none}
+ .rad .lbl{display:none}
+ .chip{flex:none}
+ .pocet{display:none}
+ nav.filtre .wrap{padding-left:14px;padding-right:0}
+ .mhead .num{font-size:46px}
+ .mhead h2{font-size:25px}
+}
+@media print{nav.filtre,.akcie,.dalej button,.vyber{display:none}article.ul{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+ <img src="logo-itlearning.png" alt="IT Learning">
+ <div class="kurz">Microsoft Copilot prakticky I.<br>Copilot Chat bez platenej licencie</div>
+</div></header>
+
+<main>
+<div class="wrap hero">
+ <h1>Prompty na cvičenia</h1>
+ <p class="sub">35 úloh v 7 moduloch. Vyberte si oddelenie a prompty sa prispôsobia vašej práci.</p>
+ <ol class="kroky">
+  <li><b>Vyberte oddelenie</b><span>Prompty sa zmenia podľa toho, kde pracujete. Oddelenie môžete kedykoľvek prepnúť.</span></li>
+  <li><b>Skopírujte prompt</b><span>Otvorte <a href="https://m365.cloud.microsoft/chat" target="_blank" rel="noopener">m365.cloud.microsoft/chat</a>, kliknite na Kopírovať a prompt vložte do Copilota.</span></li>
+  <li><b>Doplňte a pokračujte</b><span>Prepíšte miesta v hranatých zátvorkách. Výsledok dolaďte ďalšími správami v tom istom chate.</span></li>
+ </ol>
+ <div class="vyber" id="vyber">
+  <h2>V ktorom oddelení pracujete?</h2>
+  <p>Vyberte oblasť, ktorá je najbližšie vašej práci. Firmy a údaje v cvičeniach sú vymyslené.</p>
+  <div class="tiles" id="tiles"></div>
+ </div>
+ <div class="info">
+  <div>
+   <h2>Dobrý prompt má päť častí</h2>
+   <ol>
+    <li><b>Cieľ:</b> čo má Copilot urobiť.</li>
+    <li><b>Kontext:</b> pre koho, v akej situácii, prečo.</li>
+    <li><b>Očakávania:</b> forma, dĺžka a tón výstupu.</li>
+    <li><b>Zdroje:</b> text, súbor alebo web, z ktorého má vychádzať.</li>
+    <li><b>Upresnenia:</b> čo nechcete a na čo si má dať pozor.</li>
+   </ol>
+  </div>
+  <div class="pozor">
+   <h2>Skôr než začnete</h2>
+   <ul>
+    <li>Pri prihlásení pracovným účtom má Copilot Chat pri okne na písanie ikonu štítu. Znamená firemnú ochranu údajov.</li>
+    <li>Do Copilota nevkladajte osobné údaje kolegov ani zákazníkov a interné čísla zmlúv či objednávok. Údaje v cvičeniach sú vymyslené.</li>
+    <li>Fakty, čísla a paragrafy si vždy overte. Copilot sa môže mýliť.</li>
+   </ul>
+  </div>
+ </div>
+</div>
+
+<nav class="filtre" aria-label="Výber úloh"><div class="wrap">
+ <div class="rad" id="fOdd"><span class="lbl">Oddelenie</span></div>
+ <div class="rad" id="fModul"><span class="lbl">Modul</span><span class="pocet" id="pocet" aria-live="polite"></span></div>
+</div></nav>
+
+<div class="wrap" id="obsah"></div>
+</main>
+
+<footer><div class="wrap">
+ <span>IT Learning · Microsoft Copilot prakticky I.</span>
+ <span>Prompty si môžete skopírovať a upraviť pre vlastnú prácu.</span>
+</div></footer>
+
+<script>
+const ODD = [
+ {k:"hr", l:"Ľudské zdroje"},
+ {k:"fin", l:"Financie"},
+ {k:"udr", l:"Údržba"},
+ {k:"nak", l:"Nákup"},
+ {k:"log", l:"Logistika"},
+ {k:"sal", l:"Sales"},
+ {k:"vyr", l:"Výroba"},
+ {k:"pla", l:"Plánovanie"},
+ {k:"kva", l:"Kvalita"}
+];
+
+const MODULY = [
+ {n:1, kratko:"Prompty", nazov:"Ako písať dobrý prompt", popis:"Päť častí dobrého zadania a návyky, vďaka ktorým dostanete použiteľný výsledok na prvý alebo druhý pokus."},
+ {n:2, kratko:"Texty bez webu", nazov:"Texty a nápady bez webu", popis:"Copilot pracuje len s tým, čo mu napíšete. Nepotrebuje web ani vaše dokumenty."},
+ {n:3, kratko:"Web", nazov:"Web: aktuálne informácie a overovanie", popis:"Copilot hľadá na internete a uvádza zdroje. Odkazy si vždy otvorte a skontrolujte. Ak Copilot z webu neodpovedá, firma môže mať vyhľadávanie vypnuté."},
+ {n:4, kratko:"Word", nazov:"Word: tvorba a úprava dokumentov", popis:"Opravy, šablóny, zápisy a zhrnutia. Text vložíte do chatu alebo nahráte súbor cez ikonu +."},
+ {n:5, kratko:"PowerPoint", nazov:"PowerPoint: prezentácie", popis:"Štruktúra, texty na snímky, obrázky a príprava na otázky. Hotový obsah vložíte do PowerPointu."},
+ {n:6, kratko:"Excel", nazov:"Excel: vzorce a práca s dátami", popis:"Vzorce podľa opisu, vysvetlenie cudzích vzorcov a rýchla analýza. Výsledky výpočtov vždy overte v Exceli."},
+ {n:7, kratko:"Outlook", nazov:"Outlook: e-maily a komunikácia", popis:"Zhrnutia vlákien, odpovede z poznámok a šablóny. Copilot Chat e-maily neodosiela, text si skopírujete."}
+];
+
+/* Úlohy s poľom v sú prispôsobené oddeleniu. Funkcie dostávajú údaje zvoleného oddelenia (x). */
+const ULOHY = [
+/* ---------- MODUL 1 ---------- */
+{id:"1.1", m:1, kde:"Copilot Chat", nazov:"Zlý a dobrý prompt: krátky návod",
+ uloha:x=>`Najprv pošlite krátke zadanie „${x.zly}“ Potom otvorte nový chat, pošlite prompt nižšie a oba výsledky porovnajte.`,
+ p:x=>`${x.ciel}
+
+Kontext: ${x.kontext}
+
+Očakávania: Najviac 8 krokov. Každý krok je jedna krátka veta, ktorá začína slovesom. Bez úvodu a záveru.
+
+Upresnenie: ${x.upres}`,
+ dalej:x=>[x.dalej,"Pridaj ku každému kroku jednu vetu, prečo je dôležitý."],
+ preco:"Prompt obsahuje cieľ (návod), kontext (kto číta a v akej situácii), očakávania (počet krokov, dĺžka viet) a upresnenie. Čím presnejšie opíšete čitateľa, tým lepšie Copilot odhadne tón a dĺžku. Posledná veta ho núti priznať neistotu, takže si nevymýšľa.",
+ v:{
+  hr:{zly:"Napíš, čo robiť v prvý deň v novej práci.",
+   ciel:"Napíš krátky návod pre nového zamestnanca výroby, čo má urobiť v prvý pracovný deň.",
+   kontext:"Text dostane vytlačený na vrátnici spolu so vstupnou kartou. Čitateľ firmu nepozná, je nervózny a ešte nemá prístup do počítača.",
+   upres:"Neuvádzaj mená ani čísla kancelárií, doplníme ich sami. Ak si pri niektorom kroku nie si istý, či platí v každej firme, označ ho otáznikom.",
+   dalej:"Prepíš návod pre nového kolegu v administratíve, ktorý prvý deň pracuje z domu na notebooku."},
+  fin:{zly:"Napíš, ako uzavrieť mesiac.",
+   ciel:"Napíš krátky kontrolný postup pre nového účtovníka, čo má urobiť v posledný pracovný deň mesiaca pred uzávierkou.",
+   kontext:"Postup bude uložený v zdieľanom priečinku tímu. Čitateľ účtovníctvu rozumie, našu firmu a jej zvyklosti však ešte nepozná.",
+   upres:"Neuvádzaj názvy systémov ani konkrétne termíny, doplníme ich sami. Ak si pri niektorom kroku nie si istý, či zodpovedá slovenským predpisom, označ ho otáznikom.",
+   dalej:"Prepíš postup pre koniec roka, keď k uzávierke pribudne inventarizácia."},
+  udr:{zly:"Napíš, čo robiť pri poruche stroja.",
+   ciel:"Napíš krátky návod pre operátora linky, čo má urobiť v prvých 10 minútach po poruche stroja.",
+   kontext:"Návod bude zalaminovaný pri každom stroji. Čitateľ je pod tlakom, linka stojí a majster sa pýta, kedy sa rozbehne.",
+   upres:"Neuvádzaj telefónne čísla ani mená, doplníme ich sami. Ak si pri niektorom kroku nie si istý, či je v súlade s pravidlami BOZP, označ ho otáznikom.",
+   dalej:"Prepíš návod pre nočnú zmenu, keď údržbár nie je priamo vo firme."},
+  nak:{zly:"Napíš, ako objednať tovar.",
+   ciel:"Napíš krátky návod pre kolegov z ostatných oddelení, ako správne zadať požiadavku na nákup.",
+   kontext:"Návod bude na intranete. Čitateľ nakupuje len občas, postup nepozná a chce mať požiadavku vybavenú čo najskôr.",
+   upres:"Neuvádzaj názvy systémov ani limity schvaľovania, doplníme ich sami. Ak si pri niektorom kroku nie si istý, či sa vo firmách bežne používa, označ ho otáznikom.",
+   dalej:"Prepíš návod pre urgentný nákup, keď kvôli chýbajúcemu dielu stojí výroba."},
+  log:{zly:"Napíš, ako prevziať tovar.",
+   ciel:"Napíš krátky návod pre skladníka, čo má urobiť pri preberaní dodávky od dopravcu.",
+   kontext:"Návod bude visieť pri vykladacej rampe. Čitateľ má pred sebou čakajúceho vodiča a niekoľko paliet.",
+   upres:"Neuvádzaj telefónne čísla ani názvy systémov, doplníme ich sami. Ak si pri niektorom kroku nie si istý, či je bežnou praxou, označ ho otáznikom.",
+   dalej:"Prepíš návod pre prípad, keď je tovar pri preberaní viditeľne poškodený."},
+  sal:{zly:"Napíš, ako sa pripraviť na stretnutie so zákazníkom.",
+   ciel:"Napíš krátky návod pre nového obchodníka, čo má urobiť v posledných 30 minútach pred prvým stretnutím s novým zákazníkom.",
+   kontext:"Text bude v zaškoľovacej príručke obchodného tímu. Čitateľ sedí v aute pred firmou zákazníka a číta na mobile.",
+   upres:"Neuvádzaj názvy nášho CRM ani produktov, doplníme ich sami. Ak si pri niektorom kroku nie si istý, či je vhodný v predaji firmám (B2B), označ ho otáznikom.",
+   dalej:"Prepíš návod pre prvé stretnutie, ktoré prebehne online cez Teams."},
+  vyr:{zly:"Napíš, ako odovzdať zmenu.",
+   ciel:"Napíš krátky návod pre majstra, čo má urobiť v posledných 15 minútach zmeny pri odovzdávaní nasledujúcej zmene.",
+   kontext:"Návod bude visieť v kancelárii majstrov. Čitateľ je na konci 12-hodinovej zmeny, je unavený a chce odísť načas.",
+   upres:"Neuvádzaj názvy liniek ani systémov, doplníme ich sami. Ak si pri niektorom kroku nie si istý, či je bežnou praxou, označ ho otáznikom.",
+   dalej:"Prepíš návod pre odovzdanie zmeny pred víkendom, keď sa linka odstavuje."},
+  pla:{zly:"Napíš, čo robiť, keď mešká materiál.",
+   ciel:"Napíš krátky postup pre plánovača výroby, čo má urobiť v prvej hodine po tom, ako sa dozvie, že kľúčový materiál príde o tri dni neskôr.",
+   kontext:"Postup bude v príručke oddelenia plánovania. Čitateľ má pred sebou plán na celý týždeň a výroba čaká na jeho rozhodnutie.",
+   upres:"Neuvádzaj názvy systémov ani mená, doplníme ich sami. Ak si pri niektorom kroku nie si istý, či je bežnou praxou, označ ho otáznikom.",
+   dalej:"Prepíš postup pre situáciu, keď zákazník nečakane zdvojnásobí objednávku."},
+  kva:{zly:"Napíš, čo robiť pri reklamácii.",
+   ciel:"Napíš krátky návod pre pracovníka kvality, čo má urobiť v prvých 24 hodinách po prijatí reklamácie od zákazníka.",
+   kontext:"Návod bude v príručke oddelenia kvality. Čitateľ má pred sebou e-mail od nahnevaného zákazníka a fotografie chybného dielu.",
+   upres:"Neuvádzaj názvy formulárov ani systémov, doplníme ich sami. Ak si pri niektorom kroku nie si istý, či zodpovedá bežnej praxi, napríklad metóde 8D, označ ho otáznikom.",
+   dalej:"Prepíš návod pre internú chybu, ktorú sme zistili ešte pred expedíciou."}
+ }},
+
+{id:"1.2", m:1, kde:"Copilot Chat", nazov:"Rola a publikum: jedno vysvetlenie pre troch ľudí",
+ uloha:"Pošlite prompt a porovnajte, ako sa líši jazyk a príklady pre jednotlivých ľudí.",
+ p:x=>`Si skúsený ${x.rola}. Vysvetli ${x.pojem} trom rôznym ľuďom:
+1. ${x.a},
+2. ${x.b},
+3. ${x.c}.
+
+Každému napíš najviac 4 vety jeho jazykom a uveď jeden príklad situácie z jeho práce. Na konci pridaj jednu vetu, ktorú by si povedal všetkým trom rovnako.`,
+ dalej:["Napíš to isté pre kolegu, ktorý hovorí len po anglicky."],
+ preco:"Rola určuje odbornosť a slovník, opis publika určuje jazyk a príklady. Jedna otázka tak dá tri odlišné odpovede. Rovnako postupujte, keď vysvetľujete tému ľuďom s rôznymi skúsenosťami.",
+ v:{
+  hr:{rola:"HR business partner", pojem:"rozdiel medzi pružným pracovným časom a prácou nadčas", a:"operátor výroby na trojzmennej prevádzke", b:"nová asistentka, ktorá prišla rovno zo školy", c:"vedúci oddelenia, ktorý schvaľuje dochádzku svojho tímu"},
+  fin:{rola:"finančný kontrolór", pojem:"rozdiel medzi ziskom a cash flow", a:"majster výroby, ktorý zodpovedá za náklady linky", b:"obchodník, ktorý dostáva províziu z obratu", c:"nový člen vedenia bez finančného vzdelania"},
+  udr:{rola:"vedúci údržby", pojem:"rozdiel medzi preventívnou a prediktívnou údržbou", a:"operátor stroja, ktorý robí základnú údržbu na začiatku zmeny", b:"finančný riaditeľ, ktorý schvaľuje rozpočet údržby", c:"nový údržbár, ktorý prišiel z autoservisu"},
+  nak:{rola:"strategický nákupca", pojem:"rozdiel medzi najnižšou cenou a celkovými nákladmi na vlastníctvo (TCO)", a:"technológ, ktorý trvá na konkrétnom dodávateľovi", b:"finančná manažérka, ktorá sleduje úspory", c:"nový nákupca, ktorý doteraz nakupoval v maloobchode"},
+  log:{rola:"logistický manažér", pojem:"dodacie podmienky Incoterms, konkrétne rozdiel medzi doložkami EXW a DAP", a:"skladník, ktorý nakladá kamióny", b:"obchodník, ktorý dojednáva cenu so zákazníkom", c:"nová kolegyňa v zákazníckom servise"},
+  sal:{rola:"obchodný riaditeľ", pojem:"rozdiel medzi potenciálnym zákazníkom (lead), obchodnou príležitosťou a uzavretým obchodom", a:"junior obchodník v prvom mesiaci", b:"riaditeľ výroby, ktorý chce vedieť, čo ho čaká", c:"konateľ firmy, ktorý sa pýta na predaj v budúcom štvrťroku"},
+  vyr:{rola:"riaditeľ výroby", pojem:"ukazovateľ OEE (celková efektivita zariadení)", a:"operátor linky", b:"nový majster, ktorý prišiel z inej firmy", c:"kolega z obchodu, ktorý zákazníkom sľubuje termíny"},
+  pla:{rola:"vedúci plánovania výroby", pojem:"prečo zmena výrobného plánu na poslednú chvíľu zvyšuje náklady", a:"obchodník, ktorý potrebuje termín pre zákazníka", b:"majster, ktorý dostáva plán na zmenu", c:"konateľ, ktorý zvažuje prijatie novej zákazky"},
+  kva:{rola:"manažér kvality", pojem:"rozdiel medzi kontrolou kvality a riadením kvality", a:"operátor, ktorý robí vizuálnu kontrolu dielov", b:"obchodník, ktorý rieši reklamáciu so zákazníkom", c:"nový nákupca, ktorý vyberá dodávateľov"}
+ }},
+
+{id:"1.3", m:1, kde:"Copilot Chat", nazov:"Nech sa Copilot najprv pýta",
+ uloha:x=>`Na otázky odpovedajte vymyslenými údajmi (${x.hint}). Sledujte, ako sa text prispôsobí vašim odpovediam.`,
+ p:x=>`Potrebujem napísať ${x.co}.
+
+Skôr než začneš písať, polož mi 5 otázok, ktorých odpovede potrebuješ, aby bol text presný a presvedčivý. Pýtaj sa po jednej a počkaj na moju odpoveď. Keď budeš mať všetkých 5 odpovedí, napíš finálny text.`,
+ preco:"Keď neviete, čo všetko má zadanie obsahovať, nechajte Copilota pýtať sa. Získate úplnejšie zadanie a zároveň vidíte, ktoré informácie sú pre dobrý výsledok podstatné. Otázky po jednej sú pohodlnejšie ako vypĺňanie piatich naraz.",
+ v:{
+  hr:{co:"inzerát na pozíciu operátora výroby do trojzmennej prevádzky", hint:"mzda, zmeny, benefity, čo ľudí odrádza"},
+  fin:{co:"e-mail vedúcim oddelení, prečo musia na budúci rok znížiť náklady o 5 %", hint:"dôvod, termín, čo sa škrtať nesmie"},
+  udr:{co:"žiadosť vedeniu o schválenie nákupu nového kompresora namiesto opravy starého", hint:"vek stroja, počet porúch, cena"},
+  nak:{co:"e-mail dodávateľovi, v ktorom ho žiadam o zníženie ceny pri predĺžení zmluvy", hint:"objem, dĺžka spolupráce, ponuky konkurencie"},
+  log:{co:"e-mail dopravcovi, s ktorým chceme uzavrieť rámcovú zmluvu na pravidelné prepravy", hint:"trasy, frekvencia, typ tovaru"},
+  sal:{co:"ponukový e-mail pre výrobnú firmu, ktorá od nás zatiaľ nič nekupuje", hint:"odvetvie, veľkosť firmy, čo ich trápi"},
+  vyr:{co:"oznam pre zamestnancov výroby o zavedení nového zmenového modelu", hint:"aký model, od kedy, prečo"},
+  pla:{co:"e-mail obchodnému oddeleniu, prečo nevieme splniť termín, ktorý sľúbili zákazníkovi", hint:"kapacita, materiál, náhradný termín"},
+  kva:{co:"odpoveď zákazníkovi na reklamáciu dodávky s chybnými dielmi", hint:"počet chybných kusov, príčina, náprava"}
+ }},
+
+{id:"1.4", m:1, kde:"Copilot Chat", nazov:"Presný formát výstupu: tabuľka",
+ uloha:"Pošlite prompt a výslednú tabuľku skúste skopírovať do Wordu alebo Excelu.",
+ p:x=>`Porovnaj ${x.porov}.
+
+Výstup daj ako tabuľku so stĺpcami: ${x.stlpce}.
+
+Pod tabuľku napíš jednu vetu s odporúčaním pre ${x.sit}.`,
+ preco:"Keď napíšete, ako má výstup vyzerať, nemusíte ho potom prerábať. Tabuľku skopírujete priamo do Wordu, Excelu alebo e-mailu. Posledná veta ukazuje, že k tabuľke môžete pridať aj konkrétny záver pre jednu situáciu.",
+ v:{
+  hr:{porov:"tri spôsoby, ako hľadať nových operátorov výroby: personálna agentúra, inzerát na pracovnom portáli a odporúčanie od zamestnancov", stlpce:"spôsob, výhody, nevýhody, kedy je najvhodnejší, čo si musíme pripraviť", sit:"firmu, ktorá do mesiaca potrebuje 10 ľudí na novú linku"},
+  fin:{porov:"tri spôsoby financovania nového stroja: nákup z vlastných zdrojov, bankový úver a leasing", stlpce:"spôsob, výhody, nevýhody, vplyv na cash flow, kedy je najvhodnejší", sit:"firmu, ktorá má dobrý zisk a málo voľnej hotovosti"},
+  udr:{porov:"tri prístupy k údržbe: oprava po poruche, plánovaná preventívna údržba a údržba podľa stavu (prediktívna)", stlpce:"prístup, výhody, nevýhody, náklady, pre aké zariadenia je vhodný", sit:"kritický stroj, ktorého výpadok zastaví celú linku"},
+  nak:{porov:"tri spôsoby výberu dodávateľa: priame oslovenie známeho dodávateľa, výberové konanie s tromi ponukami a elektronická aukcia", stlpce:"spôsob, výhody, nevýhody, časová náročnosť, kedy je najvhodnejší", sit:"jednorazový nákup za 15 000 €, ktorý treba vybaviť do dvoch týždňov"},
+  log:{porov:"tri spôsoby prepravy tovaru k zákazníkovi do Nemecka: vlastné vozidlo, celovozová preprava cez dopravcu a zberná (kusová) služba", stlpce:"spôsob, výhody, nevýhody, cena, pre aký objem je vhodný", sit:"dodávku 4 paliet, ktorá musí byť u zákazníka do 48 hodín"},
+  sal:{porov:"tri spôsoby, ako získavať nových firemných zákazníkov: veľtrhy, oslovovanie cez LinkedIn a odporúčania od existujúcich zákazníkov", stlpce:"kanál, výhody, nevýhody, náklady, ako rýchlo prináša výsledky", sit:"malý obchodný tím s obmedzeným rozpočtom"},
+  vyr:{porov:"tri zmenové modely vo výrobe: dvojzmenný, trojzmenný a nepretržitá prevádzka", stlpce:"model, výhody, nevýhody, nároky na ľudí, kedy je najvhodnejší", sit:"výrobu, ktorej objednávky dlhodobo prevyšujú kapacitu o 20 %"},
+  pla:{porov:"tri spôsoby plánovania výroby: výroba na sklad, výroba na objednávku a kombinácia oboch", stlpce:"spôsob, výhody, nevýhody, nároky na sklad, pre aké výrobky je vhodný", sit:"firmu, ktorá má 20 % štandardných výrobkov a 80 % zákaziek na mieru"},
+  kva:{porov:"tri spôsoby kontroly kvality: 100 % kontrola, výberová (štatistická) kontrola a kontrola prvého a posledného kusu", stlpce:"spôsob, výhody, nevýhody, náklady, kedy je najvhodnejší", sit:"nový výrobok, pri ktorom zákazník hlási prvé reklamácie"}
+ }},
+
+{id:"1.5", m:1, kde:"Copilot Chat", nazov:"Doladenie v tom istom vlákne",
+ uloha:"Po prvej odpovedi pokračujte nadväzujúcimi promptmi nižšie v tom istom chate. Nový chat nezačínajte.",
+ p:`Napíš krátky oznam do tímového chatu: Od 1. januára sa žiadosti o dovolenku podávajú cez nový formulár. Odkaz na formulár pošleme v piatok. Žiadosti poslané e-mailom už nebudeme spracúvať.
+
+Tón: priateľský, vecný. Najviac 5 viet.`,
+ dalej:["Skráť to na polovicu.","Pridaj vetu, na koho sa obrátiť s otázkami: [meno kolegu].","Napíš 3 rôzne varianty prvej vety."],
+ preco:"Prvá odpoveď je návrh. V tom istom vlákne si Copilot pamätá, o čom ste hovorili, preto stačí krátka pripomienka namiesto nového zadania. K výsledku sa tak dostanete rýchlejšie ako jedným dlhým promptom."},
+
+/* ---------- MODUL 2 ---------- */
+{id:"2.1", m:2, kde:"Copilot Chat", nazov:"Odpoveď na sťažnosť",
+ uloha:x=>`${x.sit} Fakty o situácii dodáte vy, Copilot z nich spraví odpoveď.`,
+ p:x=>`Si skúsený ${x.rola}. Pomôž mi odpovedať na sťažnosť ${x.koho}.
+
+Sťažnosť:
+„${x.text}“
+
+Čo viem o situácii:
+- ${x.f1},
+- ${x.f2},
+- ${x.f3}.
+
+Napíš odpoveď, ktorá:
+- začne pochopením situácie,
+- vysvetlí, na čo sa čaká a čo spravíme my,
+- ponúkne ${x.pomoc},
+- nesľúbi ${x.nesl}.
+
+Najviac 150 slov, vykanie, podpis [meno].`,
+ dalej:["Napíš kratšiu verziu ako správu do Teams, najviac 300 znakov."],
+ preco:"Copilot vašu situáciu nepozná. Fakty mu preto dodáte vy a on z nich spraví zrozumiteľný a pokojný text. Podmienka v poslednom bode chráni pred záväzkom, ktorý nemusíte dodržať. Odpoveď si pred odoslaním vždy prečítajte.",
+ v:{
+  hr:{rola:"HR špecialista", koho:"zamestnanca", sit:"Zamestnanec sa sťažuje, že mu ani po troch týždňoch neprišiel doplatok za nadčasy.",
+   text:"Dobrý deň, nadčasy z augusta mi stále neprišli. Pýtam sa už tretí týždeň a nikto mi nič nepovie. Takto si to nepredstavujem.",
+   f1:"vedúci schválil nadčasy až po uzávierke miezd", f2:"doplatok pôjde vo výplate za september, výplatný termín je [dátum]", f3:"zamestnanec o neskorom schválení nevedel",
+   pomoc:"konkrétny kontakt, kde si môže doplatok overiť", nesl:"mimoriadnu výplatu mimo výplatného termínu"},
+  fin:{rola:"pracovník finančného oddelenia", koho:"dodávateľa", sit:"Dodávateľ sa sťažuje, že jeho faktúra ešte nie je zaplatená.",
+   text:"Dobrý deň, naša faktúra je 20 dní po splatnosti. Ak ju neuhradíte do piatku, budeme musieť pozastaviť ďalšie dodávky.",
+   f1:"faktúra neprešla schválením, chýbalo na nej číslo objednávky", f2:"číslo objednávky sme doplnili včera, faktúra je už schválená", f3:"najbližší platobný beh je [dátum]",
+   pomoc:"kontakt, na ktorý môže v budúcnosti posielať otázky k faktúram", nesl:"presný deň pripísania peňazí na účet"},
+  udr:{rola:"vedúci údržby", koho:"kolegu z výroby", sit:"Majster výroby sa sťažuje, že oprava stroja trvá príliš dlho.",
+   text:"Linka 3 stojí od včera a od údržby nemám žiadnu informáciu. Takto plán nesplníme a ja to musím vysvetľovať vedeniu.",
+   f1:"porucha je na hydraulickom čerpadle, diagnostika je hotová", f2:"náhradné čerpadlo nie je na sklade, dodávateľ ho sľúbil do [dátum]", f3:"zvažujeme dočasné riešenie s repasovaným čerpadlom",
+   pomoc:"pravidelné informovanie o stave, napríklad dvakrát denne", nesl:"presný čas spustenia linky"},
+  nak:{rola:"nákupca", koho:"kolegu z výroby", sit:"Kolega z výroby sa sťažuje, že objednaný materiál ešte neprišiel.",
+   text:"Požiadavku na rezné nástroje som zadal pred dvoma týždňami a stále nič. Ak neprídu do stredy, zastaví sa nám obrábanie.",
+   f1:"požiadavka čakala 5 dní na schválenie vedúcim", f2:"objednávka odišla dodávateľovi [dátum], dodacia lehota je 10 pracovných dní", f3:"iný dodávateľ má podobné nástroje skladom, sú však o 15 % drahšie",
+   pomoc:"riešenie s náhradným dodávateľom, ak ho schváli vedúci", nesl:"dodanie do stredy"},
+  log:{rola:"pracovník zákazníckeho servisu v logistike", koho:"zákazníka", sit:"Zákazník sa sťažuje na meškajúcu dodávku.",
+   text:"Dodávka mala byť u nás v pondelok, dnes je štvrtok a tovar stále nemáme. Stojí nám montáž a nikto nám nevie povedať, kde je.",
+   f1:"dopravca mal poruchu vozidla v Rakúsku, tovar preložil na iné vozidlo", f2:"podľa dopravcu dorazí tovar [dátum] dopoludnia", f3:"zákazník o meškaní nedostal žiadnu správu",
+   pomoc:"sledovanie zásielky a priamy kontakt na dispečera", nesl:"kompenzáciu, o ktorej nerozhodujeme my"},
+  sal:{rola:"key account manažér", koho:"zákazníka", sit:"Dlhoročný zákazník sa sťažuje na zvýšenie cien.",
+   text:"Dobrý deň, prekvapil nás váš nový cenník. Zvýšenie o 8 % bez akéhokoľvek upozornenia nie je férové k zákazníkovi, ktorý s vami spolupracuje 10 rokov.",
+   f1:"ceny sa zvýšili pre vyššie ceny materiálu a energií", f2:"zákazníci mali dostať oznámenie mesiac vopred, tento zákazník ho však nedostal", f3:"pri ročnom objeme nad [suma] vieme ponúknuť individuálne podmienky",
+   pomoc:"osobné stretnutie k podmienkam na budúci rok", nesl:"konkrétnu zľavu"},
+  vyr:{rola:"vedúci výroby", koho:"kolegu z obchodu", sit:"Obchodník sa sťažuje, že výroba nedodržala termín zákazky.",
+   text:"Zákazka pre nášho najväčšieho zákazníka mala byť hotová včera. Termín som mu potvrdil a teraz vyzerám ako klamár.",
+   f1:"počas výroby sa ukázala chyba vo výkrese, čakali sme na opravu od zákazníka", f2:"výroba pokračuje, dokončenie plánujeme na [dátum]", f3:"o meškaní sme informovali plánovanie, obchod sme neinformovali",
+   pomoc:"pravidelnú informáciu o stave zákazky a návrh, ako sa tomu nabudúce vyhnúť", nesl:"skorší termín, ako je plánovaný"},
+  pla:{rola:"plánovač výroby", koho:"majstra výroby", sit:"Majster sa sťažuje na časté zmeny plánu.",
+   text:"Tento týždeň ste plán menili už štvrtýkrát. Ľudia nevedia, čo budú robiť, a ja prestavujem linku dvakrát za zmenu.",
+   f1:"dvaja zákazníci zmenili termíny dodania", f2:"jeden dodávateľ materiálu meškal o 3 dni", f3:"od budúceho týždňa chceme plán na 3 dni dopredu zmraziť",
+   pomoc:"krátke spoločné stretnutie každý deň o 7:30", nesl:"že sa plán už nikdy nezmení"},
+  kva:{rola:"pracovník oddelenia kvality", koho:"zákazníka", sit:"Zákazník sa sťažuje, že jeho reklamácia sa rieši príliš dlho.",
+   text:"Reklamáciu chybných dielov sme nahlásili pred mesiacom. Odvtedy sme dostali len potvrdenie o prijatí. Potrebujeme vedieť, či sa to bude opakovať.",
+   f1:"príčina je zistená: opotrebovaný nástroj na lise", f2:"nástroj je vymenený, zavádzame častejšiu kontrolu", f3:"správa 8D bude hotová do [dátum]",
+   pomoc:"online stretnutie, na ktorom mu nápravné opatrenia vysvetlíme", nesl:"že sa chyba už nikdy nezopakuje"}
+ }},
+
+{id:"2.2", m:2, kde:"Copilot Chat", nazov:"Zložitý text po ľudsky",
+ uloha:"Zložitý odsek z firemného dokumentu prepíšte do jazyka, ktorému rozumie každý. Dokument je vymyslený, vo vlastnej práci použite text z vašich dokumentov.",
+ p:x=>`Prepíš tento odsek ${x.zdroj} tak, aby mu rozumel ${x.citatel}. Zachovaj presný význam, nič nepridávaj ani nevynechávaj.
+
+„${x.odsek}“
+
+Výstup:
+1. vysvetlenie v 2-3 krátkych vetách,
+2. jeden príklad z praxe ${x.prax},
+3. pojmy, pri ktorých hrozí, že zjednodušenie zmení význam.`,
+ preco:"Copilot je silný v zjednodušovaní jazyka. Pokyn „zachovaj presný význam“ a zoznam rizikových pojmov vám pomôžu skontrolovať, či sa pri zjednodušení nič nestratilo. Pri smerniciach a zmluvách rozhoduje presnosť, výsledok preto porovnajte s originálom.",
+ v:{
+  hr:{zdroj:"z internej smernice o pracovnom čase", citatel:"bežný zamestnanec výroby", prax:"zo zmeny vo výrobe",
+   odsek:"Zamestnancovi, ktorému bol na základe písomného rozhodnutia vedúceho zamestnanca nariadený výkon práce nadčas, prislúcha za každú hodinu práce nadčas popri dosiahnutej mzde mzdové zvýhodnenie vo výške určenej kolektívnou zmluvou, pokiaľ sa zamestnávateľ so zamestnancom nedohodne na poskytnutí náhradného voľna v rozsahu zodpovedajúcom odpracovaným hodinám, pričom v takom prípade mzdové zvýhodnenie neprislúcha."},
+  fin:{zdroj:"zo smernice o obehu účtovných dokladov", citatel:"vedúci oddelenia bez ekonomického vzdelania", prax:"s faktúrou od dodávateľa",
+   odsek:"Prijatú faktúru je zodpovedný zamestnanec povinný vecne a formálne overiť a odovzdať finančnému oddeleniu najneskôr do piatich pracovných dní od jej doručenia, pričom faktúry, ktoré neobsahujú číslo objednávky alebo ktorých suma presahuje schválenú hodnotu objednávky o viac ako 5 %, sa vracajú na doplnenie a do ich riadneho doplnenia sa nezaraďujú do platobného styku."},
+  udr:{zdroj:"z návodu na obsluhu a údržbu stroja", citatel:"nový údržbár", prax:"z opravy stroja",
+   odsek:"Pred začatím akejkoľvek činnosti údržby alebo čistenia, pri ktorej je nevyhnutné odstránenie ochranných krytov, je obsluha povinná zariadenie odpojiť od všetkých zdrojov energie vrátane zvyškového tlaku v pneumatickom a hydraulickom okruhu, zabezpečiť ho proti neoprávnenému opätovnému zapnutiu uzamknutím hlavného vypínača osobným zámkom a overiť beznapäťový stav, pričom pri porušení tejto povinnosti výrobca nezodpovedá za vzniknuté škody na zdraví ani na majetku."},
+  nak:{zdroj:"z našich nákupných podmienok", citatel:"technik, ktorý komunikuje s dodávateľom", prax:"so zmenou u dodávateľa",
+   odsek:"Dodávateľ je povinný oznámiť odberateľovi akúkoľvek zmenu výrobného postupu, použitého materiálu alebo miesta výroby dodávaného tovaru písomne najmenej 90 dní pred jej uskutočnením, pričom až do písomného schválenia zmeny odberateľom je dodávateľ povinný dodávať tovar v pôvodnej schválenej podobe a zodpovedá za všetky náklady a škody, ktoré odberateľovi vzniknú v dôsledku neoznámenej alebo neschválenej zmeny."},
+  log:{zdroj:"zo zmluvy s dopravcom", citatel:"skladník na expedícii", prax:"z nakládky alebo vykládky",
+   odsek:"Dopravca zodpovedá za stratu, úbytok alebo poškodenie zásielky od jej prevzatia až do jej vydania príjemcovi s výnimkou prípadov, keď ku škode došlo v dôsledku nedostatočného obalu alebo nesprávneho naloženia vykonaného odosielateľom, pričom zjavné poškodenia musí príjemca uviesť v prepravnom doklade pri prevzatí zásielky, inak sa má za to, že zásielka bola vydaná v neporušenom stave."},
+  sal:{zdroj:"z našich všeobecných obchodných podmienok", citatel:"obchodník, ktorý ho bude vysvetľovať zákazníkovi", prax:"s objednávkou zákazníka",
+   odsek:"Predávajúci si vyhradzuje vlastnícke právo k dodanému tovaru až do úplného zaplatenia kúpnej ceny vrátane príslušenstva, pričom nebezpečenstvo škody na tovare prechádza na kupujúceho okamihom jeho prevzatia a v prípade omeškania kupujúceho s úhradou je predávajúci oprávnený pozastaviť ďalšie dodávky až do úplného vyrovnania všetkých splatných záväzkov."},
+  vyr:{zdroj:"z pracovnej inštrukcie pre linku", citatel:"nový operátor", prax:"z linky",
+   odsek:"V prípade zistenia odchýlky rozmeru kontrolovaného znaku mimo tolerančného poľa je operátor povinný bezodkladne prerušiť výrobu, označiť a oddeliť všetky diely vyrobené od poslednej vyhovujúcej kontroly, informovať zmenového majstra a pokračovať vo výrobe až po jeho písomnom uvoľnení, pričom diely vyrobené od poslednej vyhovujúcej kontroly sa považujú za podozrivé až do vykonania ich stopercentnej kontroly."},
+  pla:{zdroj:"z rámcovej zmluvy so zákazníkom", citatel:"majster výroby", prax:"so zmenou objednávky",
+   odsek:"Odberateľ je oprávnený meniť množstvá v záväznej časti odvolávky v rozsahu najviac 10 % oboma smermi bez nároku dodávateľa na úhradu dodatočných nákladov, pričom zmeny presahujúce tento rozsah alebo zmeny doručené menej ako desať pracovných dní pred potvrdeným termínom dodania je dodávateľ povinný potvrdiť alebo odmietnuť do 48 hodín od ich doručenia, inak sa považujú za prijaté."},
+  kva:{zdroj:"zo zmluvy o kvalite so zákazníkom", citatel:"nový kolega v oddelení kvality", prax:"s reklamáciou",
+   odsek:"Dodávateľ je povinný pri zistení nezhodnej dodávky do 24 hodín od oznámenia zabezpečiť triedenie všetkých dotknutých dielov u odberateľa, na sklade dodávateľa aj v preprave, do piatich pracovných dní predložiť analýzu príčin vrátane dočasných nápravných opatrení a do dvadsiatich pracovných dní preukázať účinnosť trvalých nápravných opatrení, pričom náklady spojené s triedením a prípadným prerušením výroby odberateľa znáša dodávateľ."}
+ }},
+
+{id:"2.3", m:2, kde:"Copilot Chat", nazov:"Časté otázky k jednej téme",
+ uloha:"Vyberte jednu tému z hranatých zátvoriek a ostatné zmažte.",
+ p:x=>`Vytvor 10 najčastejších otázok a odpovedí (FAQ) pre ${x.pre} na tému [${x.temy}].
+
+Pre každú otázku:
+- otázka tak, ako by ju položil ${x.kto}, jeho slovami,
+- odpoveď najviac v 3 vetách,
+- ak odpoveď závisí od ${x.zavisi}, napíš to.
+
+Nepoužívaj konkrétne sumy ani lehoty. Kde by mali byť, vlož [doplniť].`,
+ preco:"Copilot vie odhadnúť, na čo sa ľudia bežne pýtajú. Konkrétne sumy a lehoty však musia prísť z vašich pravidiel, preto ich necháva prázdne. Hotové FAQ je dobrý základ pre intranet, web aj zaškolenie nových kolegov.",
+ v:{
+  hr:{pre:"zamestnancov", kto:"zamestnanec", temy:"dovolenka a náhradné voľno / stravovanie a stravné / nástup na materskú alebo rodičovskú dovolenku", zavisi:"kolektívnej zmluvy alebo internej smernice"},
+  fin:{pre:"kolegov z ostatných oddelení", kto:"kolega", temy:"cestovné náhrady / preplácanie výdavkov z vlastných peňazí / firemná platobná karta", zavisi:"internej smernice"},
+  udr:{pre:"operátorov výroby", kto:"operátor", temy:"hlásenie poruchy / základná údržba na začiatku zmeny / mazanie a čistenie stroja", zavisi:"typu stroja"},
+  nak:{pre:"kolegov, ktorí zadávajú požiadavky na nákup", kto:"kolega", temy:"schvaľovanie objednávok / nový dodávateľ / urgentný nákup", zavisi:"výšky objednávky alebo internej smernice"},
+  log:{pre:"zákazníkov", kto:"zákazník", temy:"sledovanie zásielky / poškodená dodávka / zmena miesta doručenia", zavisi:"zmluvy alebo dodacej podmienky"},
+  sal:{pre:"zákazníkov", kto:"zákazník", temy:"dodacie lehoty / cenové ponuky a zľavy / záruka a servis", zavisi:"konkrétnej zmluvy"},
+  vyr:{pre:"nových operátorov", kto:"nový operátor", temy:"striedanie zmien a prestávky / osobné ochranné pomôcky / čo robiť pri chybnom diele", zavisi:"pracoviska alebo linky"},
+  pla:{pre:"obchodníkov", kto:"obchodník", temy:"ako určujeme termín dodania / urgentné zákazky / zmena objednávky po spustení výroby", zavisi:"aktuálnej kapacity"},
+  kva:{pre:"zákazníkov", kto:"zákazník", temy:"postup reklamácie / certifikáty a atesty / audit u dodávateľa", zavisi:"zmluvy o kvalite"}
+ }},
+
+{id:"2.4", m:2, kde:"Copilot Chat", nazov:"Scenár náročného rozhovoru",
+ uloha:x=>x.uloha,
+ p:x=>`Si skúsený ${x.rola}. Priprav mi scenár ${x.rozhovor}.
+
+Zahrň:
+1. úvod rozhovoru (2-3 vety),
+2. 4 otázky, ktorými zistím ${x.zistit},
+3. odpovede na 5 najčastejších námietok: ${x.namietky},
+4. slušné ukončenie, ak ${x.ukoncenie}.
+
+Tón: pokojný, bez tlaku. ${x.extra}`,
+ dalej:x=>[`Zahraj ${x.protistrana}. Ja budem ${x.ja}. Začni ty prvou vetou a po každej mojej odpovedi reaguj ako skutočný človek v tejto situácii.`],
+ preco:"Scenár netreba čítať doslova. Slúži ako príprava, aby vás žiadna námietka neprekvapila. Pokyn „bez tlaku“ udrží odpovede profesionálne. Nadväzujúci prompt z Copilota spraví tréningového partnera.",
+ v:{
+  hr:{uloha:"Pripravte sa na rozhovor so skúseným zamestnancom, ktorý chce odísť.", rola:"HR business partner", rozhovor:"rozhovoru so skúseným zamestnancom, ktorý mi oznámil, že odchádza ku konkurencii za vyšší plat", zistit:"skutočné dôvody odchodu",
+   namietky:"„tam mi dajú o 300 eur viac“, „tu sa nemám kam posunúť“, „vedúci ma nepočúva“, „už som podpísal“, „rozhodol som sa, nič to nezmení“", ukoncenie:"zamestnanec trvá na odchode", extra:"Nesľubuj nič, o čom nemôžem rozhodnúť sám.", protistrana:"zamestnanca", ja:"HR business partner"},
+  fin:{uloha:"Pripravte sa na rozhovor o prekročenom rozpočte.", rola:"finančný kontrolór", rozhovor:"rozhovoru s vedúcim oddelenia, ktorý prekročil rozpočet o 18 %", zistit:"príčiny prekročenia",
+   namietky:"„všetko zdraželo“, „vedenie to schválilo ústne“, „bez toho by stála výroba“, „iné oddelenia sú na tom horšie“, „rozpočet bol od začiatku nereálny“", ukoncenie:"sa nedohodneme na opatreniach", extra:"Nepoučuj, hľadaj spoločné riešenie.", protistrana:"vedúceho oddelenia", ja:"kontrolór"},
+  udr:{uloha:"Pripravte sa presvedčiť vedenie o plánovanej odstávke linky.", rola:"vedúci údržby", rozhovor:"rozhovoru s riaditeľom výroby, ktorý odmieta odstaviť linku na plánovanú údržbu", zistit:"čoho sa najviac obáva",
+   namietky:"„nemáme na to čas“, „linka ide bez problémov“, „spravte to cez víkend“, „zákazník čaká“, „minulý rok sa po údržbe nič nezlepšilo“", ukoncenie:"riaditeľ odstávku neschváli", extra:"Argumentuj rizikom a nákladmi neplánovanej poruchy.", protistrana:"riaditeľa výroby", ja:"vedúci údržby"},
+  nak:{uloha:"Pripravte sa na vyjednávanie o zvýšení cien.", rola:"nákupca", rozhovor:"telefonátu s dodávateľom, ktorý oznámil zvýšenie cien o 12 %", zistit:"čím zvýšenie zdôvodňuje a kde má priestor ustúpiť",
+   namietky:"„zdraželi nám vstupy“, „ostatní odberatelia to akceptovali“, „inak nebudeme dodávať“, „ceny sme nemenili tri roky“, „lepšiu ponuku nikde nenájdete“", ukoncenie:"dodávateľ na zvýšení trvá", extra:"Nevyhrážaj sa odchodom ku konkurencii.", protistrana:"dodávateľa", ja:"nákupca"},
+  log:{uloha:"Pripravte sa na rozhovor s nespoľahlivým dopravcom.", rola:"logistický manažér", rozhovor:"telefonátu s dopravcom, ktorý už tretíkrát za mesiac meškal s vyzdvihnutím tovaru", zistit:"príčiny meškania",
+   namietky:"„nemáme vodičov“, „bola zápcha na diaľnici“, „váš sklad nebol pripravený“, „za túto cenu viac nevieme“, „inde to nikomu nevadí“", ukoncenie:"dopravca nepristúpi na zlepšenie", extra:"Buď vecný a opieraj sa o fakty.", protistrana:"dopravcu", ja:"logistický manažér"},
+  sal:{uloha:"Pripravte sa na telefonát so zákazníkom, ktorý odchádza ku konkurencii.", rola:"obchodník v predaji firmám", rozhovor:"telefonátu so zákazníkom, ktorý chce odísť ku konkurencii, lebo má lacnejšiu ponuku", zistit:"čo presne porovnáva",
+   namietky:"cena, „kvalita je všade rovnaká“, „u vás je to komplikované“, „konkurencia dodáva rýchlejšie“, „už som sa rozhodol“", ukoncenie:"zákazník trvá na odchode", extra:"Nekritizuj konkurenciu.", protistrana:"zákazníka", ja:"obchodník"},
+  vyr:{uloha:"Pripravte sa na rozhovor o nedodržiavaní pracovného postupu.", rola:"vedúci výroby", rozhovor:"rozhovoru so zamestnancom, ktorý opakovane nedodržiava pracovný postup", zistit:"prečo postup nedodržiava",
+   namietky:"„takto je to rýchlejšie“, „robím to tak roky“, „ostatní to robia tiež“, „postup je zbytočne zložitý“, „nikto mi to nevysvetlil“", ukoncenie:"zamestnanec odmieta postup dodržiavať", extra:"Hovor o konkrétnom správaní a jeho dôsledkoch.", protistrana:"zamestnanca", ja:"vedúci výroby"},
+  pla:{uloha:"Pripravte sa na rozhovor o presune zákazky v pláne.", rola:"vedúci plánovania", rozhovor:"rozhovoru s obchodným riaditeľom, ktorý chce novú zákazku zaradiť pred už potvrdené zákazky", zistit:"aká dôležitá je zákazka a čo je ochotný obetovať",
+   namietky:"„tento zákazník je strategický“, „ostatní počkajú“, „pridajte zmenu“, „vždy hovoríte, že sa to nedá“, „už som mu to sľúbil“", ukoncenie:"sa nedohodneme a rozhodnúť musí vedenie", extra:"Ukazuj dôsledky na ostatné zákazky.", protistrana:"obchodného riaditeľa", ja:"vedúci plánovania"},
+  kva:{uloha:"Pripravte sa na rozhovor s dodávateľom, ktorý opakovane dodal chybné diely.", rola:"manažér kvality", rozhovor:"telefonátu s dodávateľom, ktorému sme už druhýkrát vrátili chybnú dodávku", zistit:"či pozná príčinu a čo s ňou robí",
+   namietky:"„chyba je v toleranciách vášho výkresu“, „ostatní zákazníci sa nesťažujú“, „triedenie u vás je drahé“, „bola to výnimka“, „opatrenia už platia“", ukoncenie:"dodávateľ odmietne zodpovednosť", extra:"Opieraj sa o fakty a dohodnuté požiadavky.", protistrana:"dodávateľa", ja:"manažér kvality"}
+ }},
+
+{id:"2.5", m:2, kde:"Copilot Chat", nazov:"Kartičky na zapamätanie pravidiel",
+ uloha:"Vytvorte si kartičky otázka - odpoveď. Tému môžete vymeniť za ľubovoľnú inú.",
+ p:x=>`Vytvor 10 kartičiek otázka - odpoveď na tému „${x.tema}“.
+
+Každá kartička má krátku otázku a jasnú odpoveď v 1-2 vetách. Zameraj sa na praktické situácie: ${x.sit}.
+
+Jazyk: zrozumiteľný, bez paragrafov. Na koniec pridaj upozornenie, že pravidlá treba overiť v internej smernici.`,
+ dalej:["Vyskúšaj ma. Polož mi otázky z kartičiek po jednej a moje odpovede ohodnoť."],
+ preco:"Kartičky sú rýchly spôsob, ako si zopakovať pravidlá alebo pripraviť zaškolenie. Tému stačí vymeniť za akúkoľvek inú, ktorú vo svojej práci potrebujete. Posledná veta pripomína, že záväzné sú vaše interné pravidlá.",
+ v:{
+  hr:{tema:"ochrana osobných údajov zamestnancov", sit:"osobný spis, žiadosť vedúceho o údaje, posielanie výplatných pások, údaje uchádzačov o prácu"},
+  fin:{tema:"pravidlá pre cestovné náhrady", sit:"stravné, použitie súkromného auta, doklady zo zahraničia, preddavky"},
+  udr:{tema:"bezpečnosť pri údržbe strojov", sit:"zabezpečenie proti zapnutiu, práca vo výškach, zváranie, práca s chemikáliami"},
+  nak:{tema:"schvaľovanie nákupu a výber dodávateľa", sit:"limity objednávok, počet ponúk, konflikt záujmov, darčeky od dodávateľov"},
+  log:{tema:"preprava nebezpečného tovaru (ADR) v praxi skladu", sit:"označenie zásielky, dokumenty, nakládka, čo skontrolovať pri vodičovi"},
+  sal:{tema:"ochrana osobných údajov v obchodnej komunikácii", sit:"zbieranie kontaktov na veľtrhu, marketingové e-maily, záznamy v CRM, odhlásenie z newslettra"},
+  vyr:{tema:"BOZP na pracovisku vo výrobe", sit:"osobné ochranné pomôcky, pracovný úraz, poriadok na pracovisku, práca pri stroji"},
+  pla:{tema:"základné pojmy plánovania výroby", sit:"dodacia lehota, priebežná doba výroby, kapacita, bezpečnostná zásoba"},
+  kva:{tema:"riadenie nezhodného výrobku", sit:"označenie, oddelenie, uvoľnenie, záznam"}
+ }},
+
+/* ---------- MODUL 3 ---------- */
+{id:"3.1", m:3, kde:"Copilot Chat s webom", nazov:x=>x.nazov,
+ uloha:"Zistite aktuálne zmeny vo vašej oblasti a skontrolujte aspoň jeden zdroj.",
+ p:x=>`Zisti, aké zmeny ${x.oblast} na Slovensku nastali alebo sú ohlásené za posledných 12 mesiacov. Hľadaj ${x.co}.
+
+Výstup daj ako tabuľku: zmena, od kedy platí, koho sa týka, zdroj (odkaz).
+
+Ak niektorú informáciu nevieš overiť z dôveryhodného zdroja, napíš to namiesto odhadu.`,
+ preco:"Copilot s webom odpovedá z aktuálnych zdrojov a uvádza odkazy. Zdroj pri každom riadku vám umožní rýchlo overiť, odkiaľ informácia pochádza. Pri legislatíve uprednostnite oficiálne zdroje, napríklad Slov-Lex alebo stránky ministerstiev.",
+ v:{
+  hr:{nazov:"Čo sa zmenilo v pracovnom práve", oblast:"v pracovnom práve", co:"zmeny v Zákonníku práce, v minimálnej mzde, v príplatkoch a v povinnostiach zamestnávateľa"},
+  fin:{nazov:"Čo sa zmenilo v daniach", oblast:"v daniach a účtovníctve", co:"zmeny v DPH, v dani z príjmov, v elektronickej fakturácii a v odvodoch"},
+  udr:{nazov:"Čo sa zmenilo v revíziách a BOZP", oblast:"v predpisoch o bezpečnosti technických zariadení a BOZP", co:"zmeny v povinných revíziách, odborných prehliadkach a požiadavkách na údržbárov"},
+  nak:{nazov:"Čo sa zmenilo pre dodávateľov", oblast:"v pravidlách, ktoré ovplyvňujú nákup a dodávateľov", co:"zmeny v clách, v požiadavkách EÚ na dodávateľské reťazce a v pravidlách pre dovoz z krajín mimo EÚ"},
+  log:{nazov:"Čo sa zmenilo v doprave", oblast:"v cestnej doprave a logistike", co:"zmeny v mýte, v pravidlách pre vodičov, v colných postupoch a v preprave nebezpečného tovaru"},
+  sal:{nazov:"Čo sa zmenilo v obchodných pravidlách", oblast:"v pravidlách pre obchod a marketing", co:"zmeny v ochrane spotrebiteľa, v pravidlách pre e-mailový marketing, v elektronickej fakturácii a v platobných lehotách"},
+  vyr:{nazov:"Čo sa zmenilo v BOZP vo výrobe", oblast:"v BOZP a pracovných podmienkach vo výrobe", co:"zmeny v predpisoch o BOZP, v pravidlách pre zmennú prácu a príplatky a v požiadavkách na strojné zariadenia"},
+  pla:{nazov:"Čo sa zmenilo v pracovnom čase a sviatkoch", oblast:"v pracovnom čase, sviatkoch a dňoch pracovného pokoja", co:"zmeny v počte sviatkov, v pravidlách pre prácu cez víkend a sviatky a v príplatkoch, ktoré ovplyvnia kapacitu výroby"},
+  kva:{nazov:"Čo sa zmenilo v požiadavkách na výrobky", oblast:"v požiadavkách na kvalitu a bezpečnosť výrobkov", co:"zmeny v normách ISO, v nariadení EÚ o všeobecnej bezpečnosti výrobkov, v nariadení o strojových zariadeniach a v označovaní CE"}
+ }},
+
+{id:"3.2", m:3, kde:"Copilot Chat s webom", nazov:"Overenie tvrdenia o predpisoch",
+ uloha:"Niekto sa odvoláva na zákon. Overte, či má pravdu, a pripravte odpoveď.",
+ p:x=>`${x.kto} mi napísal: „${x.tvrdenie}“
+
+1. Over na webe, čo o ${x.tema} hovoria platné predpisy na Slovensku. Uveď konkrétny predpis a odkaz.
+2. Napíš, v čom má pravdu a v čom nie.
+3. Navrhni pokojnú odpoveď, ktorá vysvetlí skutočný stav bez poučovania.
+
+Ak si niečím nie si istý, napíš to a odporuč overenie s ${x.odbornik}.`,
+ preco:"Ľudia často citujú predpisy nepresne. Copilot pomôže rýchlo nájsť, čo platí, a pripraviť vecnú odpoveď. Výsledok berte ako podklad, záväzné stanovisko dáva odborník alebo právne oddelenie.",
+ v:{
+  hr:{kto:"Zamestnanec", tvrdenie:"Podľa zákona mi musíte na konci roka preplatiť celú nevyčerpanú dovolenku. Ak to neurobíte, porušujete zákon.", tema:"nevyčerpanej dovolenke a jej preplácaní", odbornik:"právnikom"},
+  fin:{kto:"Dodávateľ", tvrdenie:"Pri omeškaní s úhradou faktúry nám podľa zákona okrem úrokov patrí aj paušálna náhrada 40 eur za každú faktúru.", tema:"úrokoch z omeškania a paušálnej náhrade nákladov pri omeškaní s platbou medzi podnikateľmi", odbornik:"právnikom alebo daňovým poradcom"},
+  udr:{kto:"Kolega z výroby", tvrdenie:"Revíziu elektrického náradia stačí robiť raz za päť rokov, tak to hovorí zákon.", tema:"lehotách revízií elektrického ručného náradia", odbornik:"revíznym technikom alebo bezpečnostným technikom"},
+  nak:{kto:"Dodávateľ", tvrdenie:"Ak objednávku zrušíte, podľa zákona nám musíte zaplatiť celú cenu, aj keď sme ešte nič nevyrobili.", tema:"odstúpení od kúpnej zmluvy medzi podnikateľmi a náhrade škody", odbornik:"právnym oddelením"},
+  log:{kto:"Vodič dopravcu", tvrdenie:"Podľa predpisov môžem jazdiť 6 hodín bez prestávky, takže dodávku stihnem bez zastavenia.", tema:"dobe jazdy a povinných prestávkach vodičov nákladných vozidiel", odbornik:"dopravcom alebo odborníkom na dopravu"},
+  sal:{kto:"Zákazník", tvrdenie:"Ako firma máme nárok vrátiť tovar do 14 dní bez udania dôvodu, rovnako ako pri nákupe cez internet.", tema:"odstúpení od zmluvy bez udania dôvodu a o tom, či sa vzťahuje aj na nákupy firiem", odbornik:"právnym oddelením"},
+  vyr:{kto:"Zamestnanec", tvrdenie:"Pri nočnej práci mi podľa zákona patrí prestávka každé 3 hodiny a príplatok 50 % z mzdy.", tema:"prestávkach v práci a príplatkoch za nočnú prácu", odbornik:"HR alebo právnikom"},
+  pla:{kto:"Zákazník", tvrdenie:"Ak nedodáte v potvrdenom termíne, podľa zákona nám automaticky patrí zmluvná pokuta 0,5 % za každý deň.", tema:"zmluvnej pokute a omeškaní dodávateľa medzi podnikateľmi", odbornik:"právnym oddelením"},
+  kva:{kto:"Zákazník", tvrdenie:"Záruka na váš výrobok musí byť zo zákona najmenej 24 mesiacov, aj keď sme firma.", tema:"zodpovednosti za vady a záručnej dobe pri predaji medzi podnikateľmi", odbornik:"právnym oddelením"}
+ }},
+
+{id:"3.3", m:3, kde:"Copilot Chat s webom", nazov:"Štatistiky s overením zdroja",
+ uloha:"Vyberte jednu tému z hranatých zátvoriek. Po odpovedi otvorte aspoň jeden odkaz a porovnajte čísla.",
+ p:x=>`Pripravujem krátky prehľad pre tím. Nájdi aktuálne štatistiky o [${x.temy}] ${x.kde} za posledné 3 roky.
+
+Výstup:
+- tabuľka: rok, hodnota, zdroj (odkaz),
+- 3 vety o tom, ako sa čísla vyvíjajú,
+- poznámka, ak sa čísla z rôznych zdrojov líšia.
+
+Používaj len oficiálne alebo odborné zdroje, napríklad ${x.zdroje}.`,
+ preco:"Pri číslach AI zaváha najčastejšie. Preto chceme odkaz pri každom údaji a upozornenie na rozdiely medzi zdrojmi. Pred použitím v prezentácii čísla vždy skontrolujte priamo v zdroji.",
+ v:{
+  hr:{temy:"nezamestnanosti v našom kraji / priemernej mzde v priemysle / počte voľných pracovných miest", kde:"na Slovensku", zdroje:"Štatistický úrad SR, Ústredie práce, sociálnych vecí a rodiny alebo Eurostat"},
+  fin:{temy:"inflácii / úrokových sadzbách ECB / cenách energií pre firmy", kde:"na Slovensku a v eurozóne", zdroje:"Národnú banku Slovenska, ECB alebo Štatistický úrad SR"},
+  udr:{temy:"pracovných úrazoch pri údržbe / cenách elektriny pre priemysel / využívaní prediktívnej údržby vo firmách", kde:"na Slovensku alebo v EÚ", zdroje:"Národný inšpektorát práce, Eurostat alebo Štatistický úrad SR"},
+  nak:{temy:"cenách ocele / cenách plastových granulátov / cenách energií pre priemysel", kde:"v Európe", zdroje:"Eurostat, Štatistický úrad SR alebo odborné komoditné zdroje"},
+  log:{temy:"cenách nafty / objeme cestnej nákladnej dopravy / cenách námornej kontajnerovej prepravy", kde:"na Slovensku alebo v Európe", zdroje:"Štatistický úrad SR, Eurostat alebo ministerstvo dopravy"},
+  sal:{temy:"vývoze Slovenska podľa krajín / priemyselnej produkcii / dôvere v priemysle", kde:"na Slovensku", zdroje:"Štatistický úrad SR, Eurostat alebo Národnú banku Slovenska"},
+  vyr:{temy:"priemyselnej produkcii / produktivite práce v priemysle / pracovných úrazoch vo výrobe", kde:"na Slovensku", zdroje:"Štatistický úrad SR, Eurostat alebo Národný inšpektorát práce"},
+  pla:{temy:"priemyselnej produkcii / nových objednávkach v priemysle / využití výrobných kapacít", kde:"na Slovensku", zdroje:"Štatistický úrad SR, Eurostat alebo Národnú banku Slovenska"},
+  kva:{temy:"počte certifikátov ISO 9001 / nebezpečných výrobkoch hlásených v systéme Safety Gate / výsledkoch kontrol Slovenskej obchodnej inšpekcie", kde:"na Slovensku alebo v EÚ", zdroje:"ISO Survey, Safety Gate (EÚ) alebo Slovenskú obchodnú inšpekciu"}
+ }},
+
+{id:"3.4", m:3, kde:"Copilot Chat s webom", nazov:"Rýchle zorientovanie v novej téme",
+ uloha:"Pripravte si podklad na poradu o téme, o ktorej toho veľa neviete.",
+ p:x=>`Šéf mi zadal zistiť, čo je ${x.tema} a či by to malo zmysel pre našu firmu.
+
+Potrebujem:
+1. jednoduché vysvetlenie, ako to funguje,
+2. 3 príklady firiem v Európe, ktoré to používajú, s odkazmi,
+3. výhody pre ${x.pre} a pre firmu,
+4. riziká a námietky ${x.kto},
+5. čo by sme museli vyriešiť, keby sme to chceli zaviesť.
+
+Píš prakticky, bez odborného žargónu. Celé najviac na jednu stranu.`,
+ preco:"Za pár minút sa zorientujete v téme, o ktorej ste doteraz veľa nepočuli. Očíslované body zaručia, že odpoveď pokryje všetko, čo potrebujete na poradu. Príklady firiem si overte cez uvedené odkazy.",
+ v:{
+  hr:{tema:"štvordňový pracovný týždeň", pre:"zamestnancov", kto:"zamestnancov a vedúcich"},
+  fin:{tema:"automatizované spracovanie faktúr pomocou AI", pre:"finančné oddelenie", kto:"kolegov a audítora"},
+  udr:{tema:"prediktívna údržba pomocou senzorov", pre:"údržbu", kto:"údržbárov a vedenia"},
+  nak:{tema:"hodnotenie dodávateľov podľa kritérií ESG", pre:"nákup", kto:"dodávateľov a kolegov"},
+  log:{tema:"automatizovaný sklad s autonómnymi vozíkmi (AMR)", pre:"sklad", kto:"skladníkov a vedúcich zmien"},
+  sal:{tema:"predaj cez firemný e-shop pre existujúcich zákazníkov", pre:"zákazníkov", kto:"obchodníkov a zákazníkov"},
+  vyr:{tema:"digitálne pracovné inštrukcie na tabletoch pri linke", pre:"operátorov", kto:"operátorov a majstrov"},
+  pla:{tema:"systém pokročilého plánovania výroby (APS)", pre:"plánovanie", kto:"plánovačov a majstrov"},
+  kva:{tema:"automatická optická kontrola dielov kamerou s AI", pre:"kvalitu", kto:"kontrolórov a operátorov"}
+ }},
+
+{id:"3.5", m:3, kde:"Copilot Chat s webom", nazov:"Príprava na stretnutie s firmou",
+ uloha:"Doplňte skutočnú slovenskú firmu, ktorú poznáte. Pracujeme len s verejnými informáciami.",
+ p:x=>`Zajtra mám stretnutie s firmou [názov firmy], ${x.ktora}. ${x.ucel}
+
+Nájdi na webe:
+1. čím sa firma zaoberá a kde pôsobí,
+2. približnú veľkosť (zamestnanci, pobočky),
+3. novinky o firme za posledný rok,
+4. ${x.suvis}.
+
+Na záver navrhni 5 otázok, ktorými otvorím rozhovor ${x.ocom}. Uveď zdroje.`,
+ preco:"Copilot spojí verejné informácie o firme do jedného prehľadu a navrhne otázky na rozhovor. Ušetríte čas, ktorý by ste strávili prechádzaním rôznych stránok. Údaje o veľkosti firmy si overte, môžu byť neaktuálne.",
+ v:{
+  hr:{ktora:"ktorá je personálna agentúra", ucel:"Zvažujeme s ňou spoluprácu pri nábore operátorov.", suvis:"s akými firmami a pozíciami majú skúsenosti", ocom:"o spolupráci"},
+  fin:{ktora:"ktorá je náš nový veľký zákazník", ucel:"Mám posúdiť, či im môžeme dať splatnosť 60 dní.", suvis:"čo hovoria verejne dostupné údaje o ich finančnej situácii (tržby, zisk, prípadné problémy), napríklad z registra účtovných závierok", ocom:"o platobných podmienkach"},
+  udr:{ktora:"ktorá ponúka servis priemyselných zariadení", ucel:"Hľadáme externého partnera na údržbu kompresorov a chladenia.", suvis:"aké značky zariadení servisujú a aké referencie uvádzajú", ocom:"o servisnej zmluve"},
+  nak:{ktora:"ktorá je potenciálny nový dodávateľ", ucel:"Pripravujem výberové konanie na dodávky komponentov.", suvis:"aké certifikáty uvádzajú a pre koho dodávajú", ocom:"o spolupráci"},
+  log:{ktora:"ktorá ponúka dopravné a skladové služby", ucel:"Hľadáme partnera na prepravy do Nemecka a Poľska.", suvis:"akú flotilu a sklady majú a na aké trasy sa špecializujú", ocom:"o spolupráci"},
+  sal:{ktora:"ktorá by mohla byť náš nový zákazník", ucel:"Pripravujem prvé obchodné stretnutie.", suvis:"čo z toho môže súvisieť s našimi produktmi alebo službami", ocom:"o ich potrebách"},
+  vyr:{ktora:"ktorá je výrobná firma z iného odvetvia", ucel:"Ideme k nim na exkurziu a chceme sa inšpirovať organizáciou výroby.", suvis:"čo verejne uvádzajú o svojej výrobe, automatizácii a oceneniach", ocom:"o tom, čo sa im v organizácii výroby osvedčilo"},
+  pla:{ktora:"ktorá je náš nový zákazník", ucel:"Dohadujeme sa na pravidelných odvolávkach a predpovediach dopytu.", suvis:"aká sezónnosť alebo výkyvy môžu ovplyvniť ich objednávky", ocom:"o plánovaní dodávok"},
+  kva:{ktora:"ktorá je náš dodávateľ", ucel:"Idem k nim na audit procesu.", suvis:"aké certifikáty a normy uvádzajú a či sa o nich objavili správy o problémoch s kvalitou", ocom:"na úvodnom stretnutí auditu"}
+ }},
+
+/* ---------- MODUL 4 ---------- */
+{id:"4.1", m:4, kde:"Copilot Chat", nazov:"Oprava textu bez diakritiky",
+ uloha:"Text je písaný narýchlo a bez diakritiky. Nechajte ho opraviť a skontrolujte zoznam zmien.",
+ p:x=>`Oprav gramatiku, pravopis a diakritiku v tomto texte. Zachovaj pôvodný význam aj tón. Pod opravený text vypíš zoznam zmien, ktoré nie sú len doplnením diakritiky.
+
+„${x.text}“`,
+ preco:"Rýchle písanie bez diakritiky je bežné a Copilot text opraví za pár sekúnd. Zoznam zmien vám ukáže, či nezmenil niečo podstatné, napríklad dátum, číslo alebo meno.",
+ v:{
+  hr:{text:"dobry den, posielam info k nastupu noveho kolegu na linku 2. Nastupuje od pondelka na rannu zmenu, vstupnu prehliadku ma hotovu ale este nema skolenie bozp. Prosim zabezpecit pracovne oblecenie velkost L a topanky 43, kartu na vstup vybavim ja. Dajte mi vediet ci mate vsetko co treba ku nastupu."},
+  fin:{text:"ahojte, posielam podklady ku mesacnej uzavierke. Chyba este faktura od dodavatela energii, slubili ze ju poslu do stredy. Opravky ku nakladovym strediskam su v prilohe, prosim skontrolovat stredisko 210 lebo tam su nejake divne cisla. Report pre vedenie posleme az v piatok poobede."},
+  udr:{text:"dobry den, posielam info k poruche na lise 4. Stroj sa zastavil v noci okolo tretej, operator hlasil unik oleja pri valci. Hadicu sme vymenili ale tesnenie na valci je opotrebovane a treba ho objednat. Lis zatial ide na znizeny tlak, prosim o schvalenie objednavky co najskor lebo inak budeme musiet stroj odstavit."},
+  nak:{text:"dobry den, posielam info k objednavke loziska od noveho dodavatela. Cena je o 12 percent nizsia ako u sucasneho ale dodacia lehota je 6 tyzdnov. Vzorky su v poriadku, kvalita ich odsuhlasila v piatok. Prosim o rozhodnutie ci mame ist do skusobnej objednavky alebo pockat na ponuku od tretieho dodavatela."},
+  log:{text:"dobry den, posielam info k dnesnej expedicii. Kamion pre zakaznika v Brne prisiel o dve hodiny neskor, nakladka sa preto posunula na 14:00. Dve palety boli poskodene pri manipulacii, tovar sme prebalili. Prosim o kontrolu ci mozeme upravit dodaci list lebo pocet paliet sa zmenil zo 14 na 13."},
+  sal:{text:"dobry den, posielam info zo stretnutia so zakaznikom. Maju zaujem o rocny kontrakt ale chcu cenu o 5 percent nizsiu a splatnost 60 dni. Rozhodovat bude ich nakupny riaditel do konca mesiaca. Prosim o vyjadrenie ci vieme ist s cenou dole a kto to musi u nas schvalit."},
+  vyr:{text:"dobry den, posielam info z nocnej zmeny. Na linke 1 sme mali 40 minut prestoj kvoli chybajucemu materialu, plan sme splnili na 92 percent. Jeden operator odisiel domov skor lebo mu nebolo dobre. Prosim zabezpecit materal na rannu zmenu skor ako o siestej inak sa to zopakuje."},
+  pla:{text:"dobry den, posielam upraveny plan na buduci tyzden. Zakazka pre zakaznika v Ziline sa presuva na stredu lebo material pride az v utorok. Linku 2 sme preto naplanovali na udrzbu v pondelok. Prosim skontrolovat kapacitu na piatok, mame ju prekrocenu o 6 hodin a nevieme ci pojdu nadcasy."},
+  kva:{text:"dobry den, posielam info k reklamacii zakaznika. Na 3 dieloch z dodavky 2210 su skrabance na pohladovej ploche, zakaznik poslal fotky. Na sklade mame este 400 kusov z tej istej sarze, dali sme ich do karanteny. Prosim o kontrolu ci treba triedit aj u zakaznika alebo staci nahradna dodavka."}
+ }},
+
+{id:"4.2", m:4, kde:"Copilot Chat + súbor", nazov:"Ťahák z dlhého dokumentu",
+ uloha:x=>`Nahrajte do Copilota cez ikonu + cvičný dokument nižšie alebo vlastný dokument (${x.tip}) a pošlite prompt. Použite len dokument, ktorý vám firemné pravidlá dovoľujú nahrať.`,
+ p:x=>`V prílohe je dokument: ${x.dok}. Priprav z neho ťahák pre ${x.pre}:
+
+1. ${x.b1},
+2. ${x.b2},
+3. ${x.b3},
+4. pri každom bode číslo článku alebo kapitoly, z ktorej vychádzaš.
+
+Ak niečo v dokumente nenájdeš, napíš to. Nič nedopĺňaj z vlastných vedomostí.`,
+ preco:"Copilot spracuje dlhý dokument za vás. Čísla článkov vám umožnia každý bod rýchlo overiť v originále. Pokyn „nič nedopĺňaj“ ho drží len pri obsahu dokumentu. Do Copilota nahrávajte len dokumenty, ktoré vám to dovoľujú firemné pravidlá.",
+ v:{
+  hr:{dok:"pracovný poriadok firmy", pre:"nového zamestnanca", b1:"pracovný čas a prestávky (najviac 6 bodov)", b2:"čo robiť pri neprítomnosti v práci (choroba, lekár, dovolenka)", b3:"najdôležitejšie povinnosti a zákazy", tip:"pracovný poriadok, kolektívnu zmluvu alebo inú smernicu"},
+  fin:{dok:"smernica o cestovných náhradách", pre:"kolegu, ktorý ide prvýkrát na služobnú cestu", b1:"čo treba urobiť pred cestou", b2:"aké výdavky sa preplácajú a v akej výške", b3:"aké doklady a dokedy treba odovzdať po ceste", tip:"smernicu o cestovných náhradách alebo inú finančnú smernicu"},
+  udr:{dok:"návod na obsluhu a údržbu stroja", pre:"nového údržbára", b1:"pravidelné údržbové úkony a ich interval (najviac 8 bodov)", b2:"bezpečnostné pokyny pri údržbe", b3:"najčastejšie poruchy a ich riešenie", tip:"návod k stroju od výrobcu, ktorý býva verejne na webe"},
+  nak:{dok:"rámcová zmluva s dodávateľom", pre:"kolegu, ktorý s dodávateľom komunikuje", b1:"dodacie a platobné podmienky", b2:"povinnosti dodávateľa pri meškaní alebo chybnej dodávke", b3:"lehoty a postup reklamácie", tip:"zmluvu s dodávateľom alebo jeho obchodné podmienky z webu"},
+  log:{dok:"obchodné podmienky dopravcu", pre:"kolegu na expedícii", b1:"čo musíme pripraviť pred nakládkou", b2:"zodpovednosť dopravcu za škodu a jej limity", b3:"postup pri poškodenej alebo stratenej zásielke", tip:"obchodné podmienky dopravcu alebo kuriéra, ktoré bývajú verejne na webe"},
+  sal:{dok:"naše všeobecné obchodné podmienky predaja", pre:"nového obchodníka", b1:"platobné a dodacie podmienky", b2:"záruka a postup reklamácie", b3:"body, na ktoré sa zákazníci najčastejšie pýtajú alebo ich chcú meniť", tip:"vaše obchodné podmienky, ktoré bývajú verejne na webe"},
+  vyr:{dok:"pracovná inštrukcia pre pracovisko", pre:"nového operátora", b1:"postup práce krok za krokom (najviac 8 bodov)", b2:"kontroly kvality počas práce", b3:"bezpečnostné pokyny a osobné ochranné pomôcky", tip:"pracovnú inštrukciu alebo návod k stroju"},
+  pla:{dok:"rámcová zmluva so zákazníkom", pre:"kolegu v plánovaní", b1:"pravidlá pre objednávky a odvolávky (záväzné a predbežné obdobie)", b2:"lehoty na potvrdenie a zmeny objednávok", b3:"sankcie pri meškaní dodávky", tip:"zmluvu so zákazníkom alebo jeho príručku pre dodávateľov"},
+  kva:{dok:"príručka kvality pre dodávateľov od nášho zákazníka", pre:"kolegu v oddelení kvality", b1:"požiadavky na dokumentáciu a certifikáty", b2:"postup a lehoty pri reklamácii", b3:"povinnosti pri zmene výrobku alebo procesu", tip:"príručku kvality pre dodávateľov, ktorú veľké firmy zverejňujú na webe"}
+ }},
+
+{id:"4.3", m:4, kde:"Copilot Chat", nazov:"Šablóna s miestami na doplnenie",
+ uloha:"Vytvorte šablónu, ktorú budete používať opakovane.",
+ p:x=>`Vytvor šablónu ${x.typ} s názvom „${x.nazov}“.
+
+Miesta na doplnenie označ hranatými zátvorkami, napríklad ${x.priklady}.
+
+Text má:
+- ${x.a},
+- ${x.b},
+- ${x.c},
+- mať najviac 200 slov.
+
+Tón: zdvorilý, jasný.`,
+ preco:"Šablónu vytvoríte raz a používate opakovane. Hranaté zátvorky jasne ukazujú, čo treba pri každom použití doplniť. Hotovú šablónu si uložte do Wordu alebo ako šablónu v Outlooku a nabudúce už len vypĺňate.",
+ v:{
+  hr:{typ:"e-mailu pre uchádzača", nazov:"Pozvánka na pohovor", priklady:"[meno uchádzača], [pozícia], [dátum a čas], [miesto]", a:"potvrdiť termín a miesto pohovoru", b:"uviesť, čo si má uchádzač priniesť a ako dlho pohovor potrvá", c:"vysvetliť, ako termín zmeniť, ak sa nemôže zúčastniť"},
+  fin:{typ:"listu pre obchodného partnera", nazov:"Žiadosť o potvrdenie zostatku pohľadávok a záväzkov", priklady:"[názov partnera], [dátum, ku ktorému sa zostatok potvrdzuje], [suma], [termín odpovede]", a:"vysvetliť, prečo potvrdenie potrebujeme (ročná uzávierka, audit)", b:"uviesť, ako a dokedy má partner odpovedať", c:"poprosiť o zoznam rozdielov, ak zostatok nesedí"},
+  udr:{typ:"e-mailu pre výrobu", nazov:"Oznámenie o plánovanej odstávke zariadenia", priklady:"[zariadenie], [dátum a čas od-do], [rozsah prác], [kontakt]", a:"vysvetliť, prečo je odstávka potrebná", b:"uviesť, čo musí výroba pripraviť (vyprázdnenie, vyčistenie)", c:"povedať, kedy a ako dáme vedieť o spustení"},
+  nak:{typ:"e-mailu pre dodávateľa", nazov:"Žiadosť o cenovú ponuku", priklady:"[názov dodávateľa], [položka], [množstvo], [termín dodania], [termín ponuky]", a:"jasne opísať, čo potrebujeme", b:"uviesť, čo má ponuka obsahovať (cena, lehota, platobné podmienky, platnosť)", c:"uviesť termín a spôsob zaslania ponuky"},
+  log:{typ:"e-mailu pre zákazníka", nazov:"Avízo o odoslaní zásielky", priklady:"[názov zákazníka], [číslo objednávky], [počet paliet], [dopravca], [predpokladaný termín doručenia]", a:"oznámiť, čo a kedy sme odoslali", b:"uviesť, ako zásielku sledovať", c:"pripomenúť, čo skontrolovať pri prevzatí a čo robiť pri poškodení"},
+  sal:{typ:"e-mailu pre zákazníka", nazov:"Sprievodný e-mail k cenovej ponuke", priklady:"[meno], [názov firmy], [produkt], [platnosť ponuky]", a:"pripomenúť, čo sme na stretnutí dohodli", b:"zhrnúť 3 hlavné prínosy ponuky", c:"navrhnúť konkrétny ďalší krok"},
+  vyr:{typ:"oznamu pre zamestnancov", nazov:"Zmena rozpisu zmien", priklady:"[linka], [dátum], [pôvodná zmena], [nová zmena], [dôvod]", a:"jasne povedať, čo sa mení a od kedy", b:"vysvetliť dôvod zmeny", c:"uviesť, na koho sa obrátiť, ak sa zmena niekomu nehodí"},
+  pla:{typ:"e-mailu pre zákazníka", nazov:"Potvrdenie objednávky so zmenou termínu", priklady:"[názov zákazníka], [číslo objednávky], [požadovaný termín], [potvrdený termín]", a:"potvrdiť prijatie objednávky", b:"vysvetliť, prečo vieme dodať až v inom termíne", c:"ponúknuť čiastkovú dodávku, ak je to možné"},
+  kva:{typ:"listu pre dodávateľa", nazov:"Oznámenie o nezhodnej dodávke", priklady:"[názov dodávateľa], [číslo dodávky], [popis chyby], [počet kusov], [termín odpovede]", a:"presne opísať zistenú chybu", b:"uviesť, čo od dodávateľa požadujeme a dokedy (triedenie, analýza príčin, náhradná dodávka)", c:"uviesť kontaktnú osobu"}
+ }},
+
+{id:"4.4", m:4, kde:"Copilot Chat", nazov:"Z poznámok prehľadný záznam",
+ uloha:"Z heslovitých poznámok spravte prehľadný záznam. Všimnite si, či Copilot upozorní na rozpor v poznámkach.",
+ p:x=>`Z mojich poznámok ${x.z} vytvor ${x.zaznam}. Nevymýšľaj nič, čo v poznámkach nie je. Ak niečo chýba alebo si niečo odporuje, uveď to v závere ako otvorenú otázku.
+
+Poznámky:
+${x.pozn}
+
+Štruktúra: ${x.strukt}.`,
+ preco:"Copilot z neusporiadaných poznámok spraví čistý dokument. Pokyn „nevymýšľaj“ je dôležitý, lebo AI má sklon dopĺňať chýbajúce údaje. V poznámkach je schválne jeden rozpor. Ak naň Copilot neupozorní, opýtajte sa ho na to.",
+ v:{
+  hr:{z:"z výstupného pohovoru", zaznam:"prehľadný záznam pre vedúceho HR",
+   pozn:"výstupný pohovor 14.10, operátor linky 2, vo firme 3 roky. Dôvod odchodu: vyšší plat u konkurencie (+250 €). Spokojný s kolektívom, nespokojný s plánovaním zmien, o zmene sa často dozvie deň vopred. Majstra hodnotí dobre. Neskôr hovorí, že s majstrom mal konflikty kvôli dovolenke?? Firmu by odporučil známym. Posledný deň 31.10.",
+   strukt:"údaje o pohovore, dôvody odchodu, čo hodnotí pozitívne a čo negatívne (tabuľka: oblasť, vyjadrenie), odporúčania, otvorené otázky"},
+  fin:{z:"z porady o rozpočte", zaznam:"prehľadný zápis pre vedenie",
+   pozn:"porada 14.10, rozpočet 2027, prítomní: finančný riaditeľ, vedúci výroby, nákupu, logistiky. Výroba chce +8 % na údržbu strojov. Nákup ráta s rastom cien materiálu o 5 %. Logistika chce nový vysokozdvižný vozík za 35 000 €. Celkový rozpočet nesmie rásť o viac ako 3 %. Výroba neskôr hovorí, že navýšenie na údržbu už schválil konateľ?? Termín návrhov 30.10.",
+   strukt:"údaje o porade, požiadavky oddelení (tabuľka: oddelenie, požiadavka, suma alebo percento), dohodnuté úlohy, otvorené otázky"},
+  udr:{z:"z obhliadky stroja", zaznam:"prehľadný záznam do denníka údržby",
+   pozn:"obhliadka 14.10, CNC sústruh č. 7, r. v. 2015. Zvýšený hluk vretena pri vyšších otáčkach, teplota ložiska 68 °C. Pri dverách uniká chladiaca emulzia, tesnenie popraskané. Operátor hovorí, že hluk je od pondelka. Podľa záznamu zmeny hlásený už minulý týždeň?? Mazanie podľa plánu vykonané 2.10. Navrhujem výmenu ložiska do 2 týždňov.",
+   strukt:"údaje o obhliadke, zistené nedostatky (tabuľka: časť stroja, zistenie, závažnosť), vyjadrenie obsluhy, návrh opatrení, otvorené otázky"},
+  nak:{z:"zo stretnutia s dodávateľom", zaznam:"prehľadný zápis do zložky dodávateľa",
+   pozn:"stretnutie 14.10, dodávateľ oceľových výliskov. Ohlásené zvýšenie cien o 7 % od januára, dôvod energie. Ponúkli ročný kontrakt s pevnou cenou pri odbere nad 50 000 ks. Dodacia lehota sa skráti na 3 týždne. Na konci stretnutia obchodník spomenul, že dodacia lehota bude 4-5 týždňov?? Chcú odpoveď do 15.11.",
+   strukt:"údaje o stretnutí, ponuka dodávateľa (tabuľka: oblasť, súčasný stav, návrh), dohodnuté kroky, otvorené otázky"},
+  log:{z:"z kontroly skladu", zaznam:"prehľadný záznam pre vedúceho logistiky",
+   pozn:"kontrola 14.10, sklad hotových výrobkov, hala B. Uličky 3 a 4 zablokované paletami, chýba označenie miest. Inventúra náhodne 20 položiek, rozdiel pri 3. Vozík VZV 2 má prasknuté svetlo. Vedúci zmeny tvrdí, že rozdiel bol len pri jednej položke?? Hasiaci prístroj pri rampe 2 po termíne revízie.",
+   strukt:"údaje o kontrole, zistenia (tabuľka: oblasť, zistenie, priorita), vyjadrenie vedúceho zmeny, návrh opatrení, otvorené otázky"},
+  sal:{z:"zo stretnutia so zákazníkom", zaznam:"prehľadný záznam do CRM",
+   pozn:"stretnutie 14.10, výrobca poľnohospodárskych strojov, 250 zamestnancov. Prítomní: nákupca a technický riaditeľ. Ročne nakupujú asi 30 000 ks podobných dielov, teraz od 2 dodávateľov. Problém: kolísajúca kvalita a meškania. Rozhodnú do konca roka. Chcú vzorky do 3 týždňov. Neskôr technický riaditeľ povedal, že rozhodnutie padne až v marci?? Rozpočet neuviedli.",
+   strukt:"údaje o stretnutí, profil zákazníka, ich potreby a problémy (tabuľka: oblasť, čo povedali), dohodnuté kroky, otvorené otázky"},
+  vyr:{z:"z vyšetrovania prestoja", zaznam:"prehľadný záznam pre vedúceho výroby",
+   pozn:"prestoj 14.10, linka 3, ranná zmena 6:40-8:10. Príčina: zaseknutý dopravník po zmene typu výrobku. Operátor robil zmenu podľa inštrukcie. Údržba prišla po 25 minútach. Stratených 360 ks. Majster tvrdí, že prestoj trval 50 minút?? Podobný problém bol pred mesiacom na linke 2.",
+   strukt:"údaje o prestoji, priebeh (tabuľka: čas, udalosť), príčina, dopad, návrh opatrení, otvorené otázky"},
+  pla:{z:"z porady k plánu", zaznam:"prehľadný zápis z porady",
+   pozn:"porada 14.10, plán na 43. týždeň. Prítomní: plánovanie, výroba, nákup, obchod. Zákazník A posúva objednávku o týždeň neskôr. Materiál pre zákazku B príde v stredu namiesto pondelka. Linka 2 má v utorok plánovanú údržbu. Obchod chce zákazku C hotovú do piatku. Výroba hovorí, že linka 2 bude k dispozícii celý týždeň?? Nadčasy v sobotu zatiaľ neschválené.",
+   strukt:"údaje o porade, zmeny v pláne (tabuľka: zákazka, zmena, dopad), rozhodnutia, úlohy, otvorené otázky"},
+  kva:{z:"z interného auditu", zaznam:"prehľadnú správu z auditu",
+   pozn:"audit 14.10, pracovisko lisovanie, linka 4. Pracovná inštrukcia na pracovisku je verzia 3, v systéme platí verzia 4. Záznamy z kontroly prvého kusu chýbajú za 2 zmeny. Meradlo č. 112 bez platnej kalibrácie. Operátori poznajú postup pri nezhodnom diele. Majster tvrdí, že meradlo bolo kalibrované minulý mesiac?? Poriadok na pracovisku dobrý.",
+   strukt:"údaje o audite, zistenia (tabuľka: zistenie, typ: nezhoda alebo pozorovanie), pozitívne zistenia, návrh nápravných opatrení, otvorené otázky"}
+ }},
+
+{id:"4.5", m:4, kde:"Copilot Chat", nazov:"Návod pre zastupujúceho kolegu",
+ uloha:"Doplňte svoje skutočné úlohy. Stačia krátke heslá.",
+ p:`Idem na dovolenku od [dátum] do [dátum]. Napíš jednostranový návod pre kolegu, ktorý ma bude zastupovať.
+
+Moje bežné úlohy:
+[vypíšte 3-5 úloh, napríklad: denne kontrolujem nové požiadavky v systéme, v piatok posielam prehľad šéfovi, odpovedám na otázky kolegov z iných oddelení]
+
+Rozbehnuté veci:
+[vypíšte, čo je rozpracované a v akom stave]
+
+Pre každú úlohu uveď: čo spraviť, kde to nájde, dokedy to treba, na koho sa obrátiť, keď si nebude vedieť rady. Na koniec pridaj, čo môže počkať na môj návrat.`,
+ preco:"Copilot z vašich krátkych poznámok spraví prehľadný postup. Zastupujúci kolega má všetko na jednom mieste a vy menej telefonátov počas dovolenky. Rovnaký vzor použijete pri odovzdávaní agendy novému kolegovi."},
+
+/* ---------- MODUL 5 ---------- */
+{id:"5.1", m:5, kde:"Copilot Chat", nazov:"Štruktúra prezentácie",
+ uloha:"Nechajte si navrhnúť kostru prezentácie. Texty potom dopĺňate snímku po snímke.",
+ p:x=>`Navrhni štruktúru prezentácie na 10 snímok pre ${x.pre}. Téma: ${x.tema}.
+
+Pre každú snímku uveď:
+- nadpis,
+- 3-4 body obsahu,
+- návrh vizuálu (graf, ikona, fotografia, schéma).
+
+Prezentácia má trvať 15 minút. Posledná snímka má obsahovať ${x.posl}.`,
+ dalej:["Rozpíš snímku 3 do poznámok pre rečníka na 1 minútu."],
+ preco:"Štruktúra je najťažšia časť prezentácie. Keď ju máte, texty dopĺňate rýchlo. Počet snímok a dĺžka vystúpenia pomôžu Copilotovi odhadnúť, koľko obsahu je primerané.",
+ v:{
+  hr:{pre:"vedúcich zamestnancov", tema:"nový systém hodnotenia zamestnancov (ročný rozhovor, ciele, spätná väzba)", posl:"3 veci, ktoré musia vedúci urobiť do konca mesiaca"},
+  fin:{pre:"vedúcich oddelení", tema:"výsledky hospodárenia za 3. štvrťrok a výhľad do konca roka", posl:"jednu vetu, čo od vedúcich potrebujeme v 4. štvrťroku"},
+  udr:{pre:"vedenie firmy", tema:"plán údržby na budúci rok a potrebné investície", posl:"jasnú žiadosť o schválenie rozpočtu"},
+  nak:{pre:"vedenie firmy", tema:"stratégia nákupu na budúci rok (riziká v dodávateľskom reťazci, ceny, noví dodávatelia)", posl:"3 rozhodnutia, ktoré od vedenia potrebujeme"},
+  log:{pre:"vedenie firmy", tema:"návrh na reorganizáciu skladu hotových výrobkov", posl:"jednu vetu s odporúčaním a termínom"},
+  sal:{pre:"obchodný tím", tema:"nový produkt, ktorý budeme predávať od januára", posl:"jednu vetu, ktorou obchodník produkt predstaví zákazníkovi"},
+  vyr:{pre:"zamestnancov výroby", tema:"zavedenie metódy 5S na pracoviskách", posl:"3 veci, ktoré sa pre operátorov od budúceho mesiaca menia"},
+  pla:{pre:"obchodné oddelenie", tema:"ako funguje plánovanie výroby a prečo potrebujeme objednávky včas", posl:"3 pravidlá, vďaka ktorým budú obchodníci sľubovať reálne termíny"},
+  kva:{pre:"vedenie firmy", tema:"výsledky kvality za posledný štvrťrok (reklamácie, interné chyby, audity)", posl:"3 opatrenia na budúci štvrťrok"}
+ }},
+
+{id:"5.2", m:5, kde:"Copilot Chat", nazov:"Z textu snímky a poznámky pre rečníka",
+ uloha:"Odsek textu rozdeľte na to, čo patrí na plátno, a to, čo poviete ústne.",
+ p:x=>`Z tohto textu vytvor 3 snímky prezentácie. Každá snímka má nadpis a najviac 4 krátke body. Pod každú snímku napíš poznámky pre rečníka (3-4 vety), čo k nej povedať.
+
+Text:
+„${x.text}“`,
+ preco:"Najčastejšou chybou prezentácií je príliš veľa textu na snímke. Copilot oddelí, čo patrí na plátno a čo poviete. Poznámky pre rečníka vložíte v PowerPointe pod snímku.",
+ v:{
+  hr:{text:"Fluktuácia operátorov výroby v poslednom roku výrazne vzrástla. Najviac ľudí odchádza počas prvých troch mesiacov po nástupe. Pri výstupných pohovoroch najčastejšie uvádzajú, že nevedeli, čo ich v práci čaká, a nemali sa na koho obrátiť. Firmy, ktoré zaviedli patrónov pre nových kolegov, hlásia menej odchodov v skúšobnej dobe. Odporúčame zaviesť patróna na každej linke a krátky rozhovor po prvom týždni a po prvom mesiaci."},
+  fin:{text:"Náklady na energie tvoria tento rok výrazne vyšší podiel na celkových nákladoch ako pred dvoma rokmi. Najviac energie spotrebúvajú lisovňa a kompresorová stanica. Časť spotreby vzniká mimo výroby, napríklad pri chode strojov naprázdno cez víkend. Meranie spotreby po strediskách by ukázalo, kde sú najväčšie rezervy. Odporúčame zaviesť mesačný prehľad spotreby pre každé stredisko a cieľ úspory pre vedúcich."},
+  udr:{text:"Počet neplánovaných porúch na lisoch v poslednom roku vzrástol. Najviac porúch súvisí s hydraulikou a s opotrebovanými tesneniami. Väčšine z nich by sa dalo predísť pravidelnou kontrolou počas zmeny. Operátori však nemajú jasný postup, čo majú pri stroji kontrolovať. Odporúčame zaviesť krátky kontrolný zoznam na začiatku zmeny a mesačné vyhodnotenie porúch spolu s výrobou."},
+  nak:{text:"Ceny niektorých kľúčových materiálov sa za posledný rok niekoľkokrát výrazne zmenili. Pri troch položkách máme len jedného dodávateľa, čo zvyšuje riziko výpadku. Dodacie lehoty zo zámoria sa predĺžili a sú menej predvídateľné. Firmy, ktoré majú overeného druhého dodávateľa, zvládajú výkyvy lepšie. Odporúčame pre kritické položky do pol roka overiť náhradného dodávateľa v Európe."},
+  log:{text:"Čas nakládky kamiónov sa za posledný rok predĺžil v priemere o 20 minút. Hlavnou príčinou je hľadanie tovaru v sklade a dodatočné prebaľovanie. Vodiči čakajú pred rampou a dopravcovia nám začínajú účtovať zdržné. Lepšie označenie skladových miest a príprava zásielok vopred by čakanie skrátili. Odporúčame zaviesť časové okná pre dopravcov a pripravovať zásielky deň vopred."},
+  sal:{text:"Zákazníci si dodávateľa čoraz častejšie vyberajú podľa spoľahlivosti a rýchlosti reakcie. V prieskume spokojnosti nás hodnotili dobre za kvalitu a horšie za rýchlosť odpovede na dopyt. Na cenovú ponuku dnes čakajú v priemere päť pracovných dní. Konkurencia vie poslať ponuku do dvoch dní. Odporúčame zaviesť štandardné šablóny ponúk a cieľ odpovedať na každý dopyt do 48 hodín."},
+  vyr:{text:"Prestavba linky pri zmene typu výrobku dnes trvá v priemere 45 minút. Pri piatich prestavbách denne to znamená takmer štyri hodiny bez výroby. Veľkú časť času tvorí hľadanie nástrojov a čakanie na nastavenie. Metóda SMED pomohla iným firmám skrátiť prestavbu aj na polovicu. Odporúčame začať pilotom na jednej linke a pripraviť nástroje vopred pri každom stroji."},
+  pla:{text:"Presnosť dodávok k zákazníkom sa v poslednom polroku znížila na 87 %. Najčastejšou príčinou sú zmeny plánu na poslednú chvíľu. Tie vyvolávajú urgentné zákazky a meškajúci materiál. Každá zmena znamená prestavbu linky a stratu kapacity. Odporúčame zmraziť plán na tri dni dopredu a urgentné zákazky schvaľovať len na dennej porade."},
+  kva:{text:"Počet reklamácií od zákazníkov sa v poslednom roku znížil, interné chyby však pribudli. Najviac chýb vzniká pri zmene typu výrobku a na nočnej zmene. Väčšinu chýb zachytíme pred expedíciou, náklady na triedenie a prepracovanie však rastú. Kontrola prvého kusu po každej prestavbe by veľkú časť chýb odhalila skôr. Odporúčame zaviesť povinnú kontrolu prvého kusu so záznamom pri každej zmene typu."}
+ }},
+
+{id:"5.3", m:5, kde:"Copilot Chat", nazov:"Nápady na názov prezentácie",
+ uloha:"Získajte viac možností a vyberte si tú, ktorá sa hodí k publiku.",
+ p:x=>`Navrhni 7 názvov prezentácie na tému ${x.tema}. Prezentáciu budeme mať ${x.kde}.
+
+Ku každému názvu pridaj podnadpis a jednu vetu, čo by prezentácia obsahovala. Navrhni rôzne štýly: vecný, s humorom, s otázkou, s číslom.`,
+ preco:"Copilot je dobrý partner na hľadanie nápadov. Požiadavka na rôzne štýly zaručí, že nedostanete sedem podobných názvov. Vyberte si jeden a pokračujte štruktúrou ako v cvičení 5.1.",
+ v:{
+  hr:{tema:"nábor a udržanie ľudí vo výrobe", kde:"na porade vedúcich"},
+  fin:{tema:"šetrenie nákladov bez obmedzenia výroby", kde:"pre vedúcich oddelení"},
+  udr:{tema:"prevencia porúch strojov", kde:"pre operátorov a majstrov"},
+  nak:{tema:"spolupráca nákupu s ostatnými oddeleniami", kde:"na stretnutí vedúcich"},
+  log:{tema:"poriadok a bezpečnosť v sklade", kde:"pre skladníkov a vodičov vysokozdvižných vozíkov"},
+  sal:{tema:"prečo zákazníci odchádzajú a ako ich udržať", kde:"na výjazdovom stretnutí obchodného tímu"},
+  vyr:{tema:"bezpečnosť pri práci na linke", kde:"pre zamestnancov výroby"},
+  pla:{tema:"spolupráca obchodu, plánovania a výroby", kde:"na spoločnom workshope týchto oddelení"},
+  kva:{tema:"kvalita ako zodpovednosť každého zamestnanca", kde:"pre zamestnancov výroby"}
+ }},
+
+{id:"5.4", m:5, kde:"Copilot Chat: obrázok", nazov:"Obrázok na titulnú snímku",
+ uloha:"Vytvorte ilustráciu na snímku. Ak Copilot obrázok nevytvorí, vo vašej firme môže byť táto funkcia vypnutá.",
+ p:x=>`Vytvor obrázok na titulnú snímku prezentácie o ${x.tema}.
+
+Na obrázku: ${x.scena}.
+
+Štýl: jednoduchá plochá ilustrácia, ${x.farby}, veľa voľného miesta vpravo na nadpis.
+
+Bez textu, bez log, bez ľudí.`,
+ dalej:["Rovnaký obrázok, len v realistickom štýle fotografie."],
+ preco:"Text do obrázka nikdy nevkladajte, AI v ňom robí chyby. Nadpis pridáte v PowerPointe. Opis scény, štýlu a voľného miesta vám ušetrí veľa pokusov. Keď výsledok nesedí, zmeňte naraz len jednu vec.",
+ v:{
+  hr:{tema:"nábore nových kolegov", scena:"pracovný stôl s notebookom, šálkou kávy a ochrannou prilbou, za oknom výrobná hala v rannom svetle", farby:"modré a teplé béžové tóny"},
+  fin:{tema:"výsledkoch hospodárenia", scena:"jednoduchý rastúci stĺpcový graf, kalkulačka a zápisník na drevenom stole", farby:"tmavomodré a zelené tóny"},
+  udr:{tema:"plánovanej údržbe strojov", scena:"priemyselný stroj s otvoreným krytom, vedľa neho vozík s náradím a ozubené kolesá", farby:"modré a oranžové tóny"},
+  nak:{tema:"stratégii nákupu", scena:"glóbus s naznačenými trasami medzi továrňami, kontajnery a nákladná loď v diaľke", farby:"modré a sivé tóny"},
+  log:{tema:"reorganizácii skladu", scena:"upratený sklad s regálmi, paletami a vysokozdvižným vozíkom, svetlo cez vysoké okná", farby:"modré a žlté tóny"},
+  sal:{tema:"novom produkte pre zákazníkov", scena:"moderná zasadačka s veľkým oknom, na stole vzorka výrobku a otvorený notebook", farby:"modré a biele tóny"},
+  vyr:{tema:"zavádzaní metódy 5S", scena:"čisté výrobné pracovisko s tabuľou na náradie, kde má každý nástroj svoje miesto, a so žltými čiarami na podlahe", farby:"modré, sivé a žlté tóny"},
+  pla:{tema:"plánovaní výroby", scena:"veľká plánovacia tabuľa s farebnými kartičkami v časovej osi, v pozadí výrobná linka", farby:"modré a zelené tóny"},
+  kva:{tema:"výsledkoch kvality", scena:"lupa nad kovovým dielom, posuvné meradlo a veľká zelená fajka", farby:"modré a zelené tóny"}
+ }},
+
+{id:"5.5", m:5, kde:"Copilot Chat", nazov:"Príprava na otázky po prezentácii",
+ uloha:"Doplňte skutočné alebo vymyslené výsledky tímu.",
+ p:`O týždeň prezentujem vedeniu výsledky nášho tímu za [obdobie]. Hlavné body:
+[vypíšte 3-5 výsledkov, napríklad: skrátili sme čas vybavenia o 2 dni, znížili sme počet chýb, máme dvoch nových kolegov]
+
+1. Navrhni, v akom poradí body povedať, aby prezentácia mala jasnú líniu.
+2. Napíš 6 otázok, ktoré sa vedenie môže opýtať, aj tých nepríjemných.
+3. Ku každej otázke navrhni krátku odpoveď, ktorú si upravím.`,
+ preco:"Copilot vám pomôže pozrieť sa na prezentáciu očami publika. Najväčším prínosom sú nepríjemné otázky, na ktoré by ste sa inak nepripravili. Odpovede vždy upravte podľa skutočnosti."},
+
+/* ---------- MODUL 6 ---------- */
+{id:"6.1", m:6, kde:"Copilot Chat", nazov:"Vzorec podľa opisu",
+ uloha:"Nechajte si navrhnúť vzorec. Ak máte Excel otvorený, vyskúšajte ho na pár vymyslených riadkoch.",
+ p:x=>`Si expert na Excel. Potrebujem vzorec do slovenského Excelu (oddeľovač argumentov je bodkočiarka).
+
+Tabuľka je na hárku „${x.harok}“, hlavička je v riadku 1, údaje od riadku 2:
+- stĺpec A: ${x.a},
+- stĺpec B: ${x.b},
+- stĺpec C: ${x.c}.
+
+Vzorec má spočítať ${x.ciel} v mesiaci október 2026.
+
+Vysvetli, čo robí každá časť vzorca, a ukáž, ako ho upraviť, aby sa ${x.param} a mesiac brali z buniek F1 a F2.`,
+ preco:"Názov funkcie poznať nemusíte, stačí opísať, čo chcete. Dôležité je uviesť, kde sú údaje a že máte slovenský Excel, inak dostanete čiarky namiesto bodkočiarok. Druhá časť zadania spraví zo vzorca znovu použiteľný nástroj.",
+ v:{
+  hr:{harok:"Nadčasy", a:"dátum", b:"oddelenie (Výroba, Sklad, Údržba, Administratíva)", c:"počet hodín nadčasu", ciel:"hodiny nadčasov oddelenia „Výroba“", param:"oddelenie"},
+  fin:{harok:"Výdavky", a:"dátum dokladu", b:"nákladové stredisko (Výroba, Logistika, Obchod, Správa)", c:"suma bez DPH v eurách", ciel:"sumu výdavkov strediska „Logistika“", param:"stredisko"},
+  udr:{harok:"Poruchy", a:"dátum poruchy", b:"stroj (Lis 1, Lis 2, CNC 7, Kompresor)", c:"trvanie prestoja v minútach", ciel:"celkové minúty prestoja stroja „Lis 2“", param:"stroj"},
+  nak:{harok:"Objednávky", a:"dátum objednávky", b:"dodávateľ (Kovotech, Plastix, Metalpro, Iné)", c:"hodnota objednávky v eurách", ciel:"hodnotu objednávok u dodávateľa „Kovotech“", param:"dodávateľ"},
+  log:{harok:"Zásielky", a:"dátum odoslania", b:"krajina (SK, CZ, DE, PL, HU)", c:"počet paliet", ciel:"počet paliet odoslaných do krajiny „DE“", param:"krajina"},
+  sal:{harok:"Predaj", a:"dátum faktúry", b:"obchodník (Novák, Kováčová, Horváth, Baláž)", c:"tržba bez DPH v eurách", ciel:"tržby obchodníčky „Kováčová“", param:"obchodník"},
+  vyr:{harok:"Výroba", a:"dátum", b:"linka (Linka 1, Linka 2, Linka 3)", c:"počet vyrobených kusov", ciel:"počet vyrobených kusov na linke „Linka 2“", param:"linka"},
+  pla:{harok:"Zákazky", a:"plánovaný dátum dokončenia", b:"zákazník (Agromont, Elbau, Termis, Iné)", c:"plánované hodiny výroby", ciel:"plánované hodiny pre zákazníka „Elbau“", param:"zákazník"},
+  kva:{harok:"Chyby", a:"dátum zistenia", b:"typ chyby (Rozmer, Povrch, Montáž, Materiál)", c:"počet chybných kusov", ciel:"počet chybných kusov s typom chyby „Povrch“", param:"typ chyby"}
+ }},
+
+{id:"6.2", m:6, kde:"Copilot Chat", nazov:"Vysvetlenie cudzieho vzorca",
+ uloha:"Pochopte vzorec, ktorý vytvoril niekto iný.",
+ p:x=>`V tabuľke od kolegu je tento vzorec. Vysvetli mi jednoducho, čo robí, krok za krokom. Potom napíš, v akej situácii môže vrátiť chybný výsledok.
+
+=AK(D2="";"";AK(DNES()-D2>${x.t1};"${x.s1}";AK(DNES()-D2>${x.t2};"${x.s2}";"${x.s3}")))
+
+V stĺpci D je ${x.d}.`,
+ dalej:x=>[`Prepíš vzorec tak, aby sa počet dní ${x.t1} a ${x.t2} bral z buniek H1 a H2.`],
+ preco:"Copilot rozloží vnorený vzorec na jednotlivé kroky. Otázka na chybné výsledky ukáže slabé miesta, napríklad text namiesto dátumu v stĺpci D. Tak pochopíte aj tabuľky, ktoré vytvoril niekto iný.",
+ v:{
+  hr:{d:"dátum nástupu zamestnanca", t1:90, s1:"Po skúšobnej dobe", t2:60, s2:"Pripraviť hodnotenie", s3:"V skúšobnej dobe"},
+  fin:{d:"dátum splatnosti faktúry", t1:30, s1:"Po splatnosti nad 30 dní", t2:0, s2:"Po splatnosti", s3:"V splatnosti"},
+  udr:{d:"dátum poslednej revízie zariadenia", t1:365, s1:"Po termíne revízie", t2:330, s2:"Objednať revíziu", s3:"V poriadku"},
+  nak:{d:"dátum odoslania objednávky, ktorú dodávateľ ešte nepotvrdil", t1:14, s1:"Eskalovať", t2:7, s2:"Urgovať potvrdenie", s3:"Čaká sa"},
+  log:{d:"dátum príjmu tovaru na sklad", t1:180, s1:"Ležiak", t2:90, s2:"Sledovať", s3:"V poriadku"},
+  sal:{d:"dátum odoslania cenovej ponuky zákazníkovi", t1:30, s1:"Ponuka vypršala", t2:14, s2:"Zavolať zákazníkovi", s3:"Čaká sa"},
+  vyr:{d:"dátum posledného zaškolenia operátora na pracovisko", t1:365, s1:"Preškoliť", t2:330, s2:"Naplánovať preškolenie", s3:"V poriadku"},
+  pla:{d:"potvrdený termín dodania zákazky", t1:5, s1:"Kritické meškanie", t2:0, s2:"Meškanie", s3:"V termíne"},
+  kva:{d:"dátum otvorenia reklamácie", t1:30, s1:"Po termíne", t2:20, s2:"Urgovať správu 8D", s3:"V riešení"}
+ }},
+
+{id:"6.3", m:6, kde:"Copilot Chat", nazov:"Rýchla analýza vloženej tabuľky",
+ uloha:"Malú tabuľku stačí vložiť priamo do chatu. Výsledky skontrolujte, aspoň jeden priemer prepočítajte.",
+ p:x=>`Analyzuj túto tabuľku ${x.co}. Odpovedz:
+1. ${x.q1}
+2. ${x.q2}
+3. Ktoré riadky sa výrazne líšia od ostatných a čím to môže byť?
+4. Aké 2 otázky by som si mal položiť ďalej?
+
+Výsledky daj do tabuľky a pri každom čísle uveď, z ktorých riadkov ho počítaš.
+
+${x.tab}`,
+ preco:"Pokyn „uveď, z ktorých riadkov počítaš“ vám umožní výpočet skontrolovať. AI sa pri počítaní môže pomýliť, preto dôležité čísla vždy overte v Exceli. Väčšie tabuľky nahrajte ako súbor.",
+ v:{
+  hr:{co:"náborov za posledný polrok", q1:"Aký je priemerný počet dní do obsadenia podľa oddelenia?", q2:"Ktorý zdroj uchádzačov je najrýchlejší a z ktorého prichádzajú ľudia, ktorí vo firme ostanú?",
+   tab:`Číslo | Pozícia | Oddelenie | Zdroj | Dni do obsadenia | Odišiel do 3 mesiacov
+R01 | Operátor | Výroba | Agentúra | 12 | Áno
+R02 | Operátor | Výroba | Odporúčanie | 9 | Nie
+R03 | Skladník | Logistika | Portál | 21 | Nie
+R04 | Operátor | Výroba | Agentúra | 10 | Áno
+R05 | Údržbár | Údržba | Portál | 58 | Nie
+R06 | Účtovník | Financie | Portál | 34 | Nie
+R07 | Operátor | Výroba | Odporúčanie | 7 | Nie
+R08 | Skladník | Logistika | Agentúra | 14 | Áno
+R09 | Technológ | Výroba | LinkedIn | 96 | Nie
+R10 | Operátor | Výroba | Portál | 18 | Nie
+R11 | Nákupca | Nákup | LinkedIn | 41 | Nie
+R12 | Skladník | Logistika | Odporúčanie | 11 | Nie`},
+  fin:{co:"prijatých faktúr", q1:"Aký je priemerný počet dní od doručenia po schválenie podľa strediska?", q2:"Koľko faktúr sme zaplatili po splatnosti a ktoré stredisko na tom má najväčší podiel?",
+   tab:`Číslo | Stredisko | Suma € | Dni do schválenia | Zaplatená po splatnosti
+F01 | Výroba | 4200 | 3 | Nie
+F02 | Logistika | 1150 | 9 | Áno
+F03 | Výroba | 12800 | 4 | Nie
+F04 | Obchod | 640 | 12 | Áno
+F05 | Správa | 380 | 2 | Nie
+F06 | Výroba | 2900 | 5 | Nie
+F07 | Logistika | 3400 | 11 | Áno
+F08 | Obchod | 890 | 28 | Áno
+F09 | Správa | 1200 | 3 | Nie
+F10 | Výroba | 6700 | 6 | Nie
+F11 | Logistika | 920 | 8 | Nie
+F12 | Obchod | 2300 | 14 | Áno`},
+  udr:{co:"porúch strojov za posledný štvrťrok", q1:"Aký je priemerný čas opravy podľa stroja?", q2:"Ktorý typ poruchy spôsobuje najviac prestojov?",
+   tab:`Číslo | Stroj | Typ poruchy | Zmena | Čas opravy (min)
+P01 | Lis 1 | Hydraulika | Ranná | 45
+P02 | Lis 2 | Elektrika | Nočná | 120
+P03 | CNC 7 | Mechanika | Ranná | 60
+P04 | Lis 1 | Hydraulika | Poobedná | 50
+P05 | Kompresor | Mechanika | Nočná | 35
+P06 | Lis 2 | Hydraulika | Ranná | 40
+P07 | CNC 7 | Elektrika | Poobedná | 75
+P08 | Lis 1 | Hydraulika | Nočná | 310
+P09 | Lis 2 | Mechanika | Ranná | 55
+P10 | CNC 7 | Mechanika | Nočná | 90
+P11 | Kompresor | Elektrika | Ranná | 30
+P12 | Lis 1 | Hydraulika | Ranná | 40`},
+  nak:{co:"objednávok u dodávateľov", q1:"Aké je priemerné meškanie dodávok podľa dodávateľa?", q2:"Ktorý dodávateľ je najspoľahlivejší a pri ktorej kategórii máme najväčšie riziko?",
+   tab:`Číslo | Dodávateľ | Kategória | Hodnota € | Meškanie (dni)
+O01 | Kovotech | Výlisky | 8400 | 0
+O02 | Plastix | Plasty | 3200 | 5
+O03 | Metalpro | Výlisky | 7900 | 2
+O04 | Kovotech | Výlisky | 9100 | 1
+O05 | Plastix | Plasty | 2800 | 7
+O06 | Metalpro | Spojovací materiál | 1200 | 0
+O07 | Kovotech | Spojovací materiál | 950 | 0
+O08 | Plastix | Plasty | 3500 | 21
+O09 | Metalpro | Výlisky | 8100 | 3
+O10 | Kovotech | Výlisky | 8800 | 0
+O11 | Plastix | Plasty | 3100 | 4
+O12 | Metalpro | Spojovací materiál | 1400 | 1`},
+  log:{co:"zásielok k zákazníkom", q1:"Aký je priemerný čas doručenia podľa krajiny?", q2:"Ktorý dopravca je najspoľahlivejší?",
+   tab:`Číslo | Krajina | Dopravca | Palety | Dni doručenia | Reklamácia
+Z01 | CZ | Trans A | 4 | 1 | Nie
+Z02 | DE | Trans B | 12 | 2 | Nie
+Z03 | PL | Trans A | 6 | 2 | Nie
+Z04 | DE | Trans A | 8 | 3 | Áno
+Z05 | HU | Trans C | 3 | 2 | Nie
+Z06 | CZ | Trans B | 10 | 1 | Nie
+Z07 | DE | Trans C | 14 | 7 | Áno
+Z08 | PL | Trans B | 5 | 2 | Nie
+Z09 | HU | Trans A | 2 | 2 | Nie
+Z10 | DE | Trans B | 9 | 2 | Nie
+Z11 | CZ | Trans C | 7 | 3 | Áno
+Z12 | PL | Trans A | 4 | 2 | Nie`},
+  sal:{co:"obchodných príležitostí", q1:"Aká je úspešnosť (podiel vyhratých) podľa obchodníka?", q2:"Ktorý zdroj príležitostí prináša najvyššiu hodnotu obchodov?",
+   tab:`Číslo | Obchodník | Zdroj | Hodnota € | Výsledok | Dni do rozhodnutia
+OP01 | Novák | Veľtrh | 24000 | Vyhrané | 45
+OP02 | Kováčová | Odporúčanie | 18000 | Vyhrané | 21
+OP03 | Horváth | Web | 6000 | Prehrané | 30
+OP04 | Novák | LinkedIn | 12000 | Prehrané | 60
+OP05 | Kováčová | Veľtrh | 31000 | Vyhrané | 38
+OP06 | Horváth | Odporúčanie | 15000 | Vyhrané | 25
+OP07 | Novák | Web | 4500 | Prehrané | 14
+OP08 | Kováčová | LinkedIn | 9000 | Prehrané | 52
+OP09 | Horváth | Veľtrh | 140000 | Vyhrané | 180
+OP10 | Novák | Odporúčanie | 20000 | Vyhrané | 19
+OP11 | Kováčová | Web | 7000 | Vyhrané | 12
+OP12 | Horváth | LinkedIn | 11000 | Prehrané | 47`},
+  vyr:{co:"výroby za posledné dva týždne", q1:"Aký je priemerný počet vyrobených kusov za zmenu podľa linky?", q2:"Ktorá zmena má viac nepodarkov a prestojov?",
+   tab:`Číslo | Linka | Zmena | Vyrobené ks | Nepodarky ks | Prestoj (min)
+V01 | Linka 1 | Ranná | 820 | 12 | 20
+V02 | Linka 1 | Nočná | 760 | 25 | 35
+V03 | Linka 2 | Ranná | 910 | 8 | 10
+V04 | Linka 2 | Nočná | 870 | 19 | 25
+V05 | Linka 3 | Ranná | 640 | 10 | 40
+V06 | Linka 3 | Nočná | 380 | 31 | 150
+V07 | Linka 1 | Ranná | 840 | 9 | 15
+V08 | Linka 1 | Nočná | 790 | 22 | 30
+V09 | Linka 2 | Ranná | 925 | 7 | 5
+V10 | Linka 2 | Nočná | 880 | 17 | 20
+V11 | Linka 3 | Ranná | 655 | 11 | 35
+V12 | Linka 3 | Nočná | 610 | 24 | 45`},
+  pla:{co:"zákaziek za posledný mesiac", q1:"Aká je priemerná odchýlka od potvrdeného termínu podľa zákazníka?", q2:"Súvisí meškanie so zmenou objednávky?",
+   tab:`Číslo | Zákazník | Plánované hodiny | Zmena objednávky | Odchýlka (dni)
+ZK01 | Agromont | 40 | Nie | 0
+ZK02 | Elbau | 120 | Áno | 4
+ZK03 | Termis | 60 | Nie | 1
+ZK04 | Agromont | 35 | Áno | 3
+ZK05 | Elbau | 90 | Nie | 0
+ZK06 | Termis | 75 | Áno | 5
+ZK07 | Agromont | 50 | Nie | -1
+ZK08 | Elbau | 140 | Áno | 6
+ZK09 | Termis | 20 | Nie | 14
+ZK10 | Agromont | 45 | Nie | 0
+ZK11 | Elbau | 100 | Nie | 1
+ZK12 | Termis | 55 | Áno | 2`},
+  kva:{co:"reklamácií od zákazníkov", q1:"Aký je priemerný čas uzavretia reklamácie podľa typu chyby?", q2:"Ktorý výrobok má najviac reklamovaných kusov?",
+   tab:`Číslo | Výrobok | Typ chyby | Reklamované ks | Dni do uzavretia
+RK01 | Držiak A | Rozmer | 40 | 18
+RK02 | Kryt B | Povrch | 120 | 25
+RK03 | Držiak A | Povrch | 15 | 12
+RK04 | Konzola C | Montáž | 8 | 9
+RK05 | Kryt B | Povrch | 200 | 31
+RK06 | Držiak A | Rozmer | 35 | 20
+RK07 | Konzola C | Materiál | 60 | 45
+RK08 | Kryt B | Rozmer | 22 | 14
+RK09 | Držiak A | Montáž | 5 | 7
+RK10 | Konzola C | Rozmer | 18 | 16
+RK11 | Kryt B | Povrch | 90 | 28
+RK12 | Konzola C | Montáž | 3 | 95`}
+ }},
+
+{id:"6.4", m:6, kde:"Copilot Chat", nazov:x=>x.nazov,
+ uloha:"Copilot Chat Excel nenastaví za vás. Dá vám však presný postup.",
+ p:x=>`Mám v Exceli ${x.zoznam}. V stĺpci E je ${x.datum}. Chcem, aby sa riadky automaticky zafarbili:
+- na červeno, ak ${x.cerv},
+- na oranžovo, ak ${x.oranz},
+- bez farby v ostatných prípadoch.
+
+Napíš mi presný postup krok za krokom v slovenskom Exceli cez podmienené formátovanie, vrátane vzorcov. Pridaj, ako to otestujem.`,
+ preco:"Opis farieb a podmienok stačí, názov funkcie poznať nemusíte. Copilot vás prevedie nastavením krok za krokom. Takéto zafarbenie vám ušetrí ručné kontrolovanie termínov.",
+ v:{
+  hr:{nazov:"Farebné upozornenie na lekárske prehliadky", zoznam:"zoznam zamestnancov", datum:"dátum konca platnosti lekárskej prehliadky", cerv:"platnosť už skončila", oranz:"platnosť skončí do 30 dní"},
+  fin:{nazov:"Farebné upozornenie na faktúry po splatnosti", zoznam:"zoznam vystavených faktúr", datum:"dátum splatnosti a v stĺpci F stav úhrady (Uhradená alebo prázdne)", cerv:"faktúra nie je uhradená a je viac ako 30 dní po splatnosti", oranz:"faktúra nie je uhradená a je po splatnosti najviac 30 dní"},
+  udr:{nazov:"Farebné upozornenie na termíny revízií", zoznam:"zoznam zariadení", datum:"dátum najbližšej revízie", cerv:"termín revízie už prešiel", oranz:"revízia je do 30 dní"},
+  nak:{nazov:"Farebné upozornenie na koniec zmlúv", zoznam:"zoznam zmlúv s dodávateľmi", datum:"dátum konca platnosti zmluvy", cerv:"zmluva už skončila", oranz:"zmluva skončí do 60 dní"},
+  log:{nazov:"Farebné upozornenie na exspiráciu materiálu", zoznam:"zoznam skladových položiek", datum:"dátum exspirácie materiálu", cerv:"materiál je po exspirácii", oranz:"exspirácia je do 30 dní"},
+  sal:{nazov:"Farebné upozornenie na platnosť ponúk", zoznam:"zoznam cenových ponúk", datum:"dátum platnosti ponuky", cerv:"ponuka už nie je platná", oranz:"platnosť skončí do 7 dní"},
+  vyr:{nazov:"Farebné upozornenie na platnosť oprávnení", zoznam:"zoznam operátorov a ich oprávnení", datum:"dátum platnosti oprávnenia (napríklad na vysokozdvižný vozík alebo žeriav)", cerv:"oprávnenie už neplatí", oranz:"oprávnenie skončí do 30 dní"},
+  pla:{nazov:"Farebné upozornenie na blížiace sa termíny", zoznam:"zoznam zákaziek", datum:"potvrdený termín dodania a v stĺpci F stav zákazky (Hotovo alebo prázdne)", cerv:"termín už prešiel a zákazka nie je hotová", oranz:"termín je do 3 dní a zákazka nie je hotová"},
+  kva:{nazov:"Farebné upozornenie na kalibráciu meradiel", zoznam:"zoznam meradiel", datum:"dátum najbližšej kalibrácie", cerv:"kalibrácia je po termíne", oranz:"kalibrácia je do 14 dní"}
+ }},
+
+{id:"6.5", m:6, kde:"Copilot Chat", nazov:"Upratanie nejednotných údajov",
+ uloha:"Mená z rôznych systémov sú zapísané rôzne. Zistite, čo vyrieši vzorec a čo nie.",
+ p:`V stĺpci A mám mená zapísané rôzne, napríklad:
+kovac jan
+MARIA HUDECOVA
+  peter  novak
+Novak, Peter
+Zuzana Bieliková
+
+Potrebujem ich zjednotiť do tvaru „Meno Priezvisko“ s veľkými začiatočnými písmenami a bez nadbytočných medzier.
+
+1. Napíš vzorec do slovenského Excelu, ktorý to spraví pre väčšinu riadkov.
+2. Ktoré riadky vzorec nevyrieši a prečo?
+3. Navrhni aj riešenie bez vzorca, napríklad Dynamické dopĺňanie.`,
+ preco:"Nejednotné údaje sú bežné pri exportoch zo systémov. Copilot navrhne vzorec a zároveň povie, kde zlyhá. Automatická úprava nikdy nevyrieši všetky riadky, výnimky preto treba skontrolovať ručne."},
+
+/* ---------- MODUL 7 ---------- */
+{id:"7.1", m:7, kde:"Copilot Chat", nazov:"Zhrnutie e-mailového vlákna",
+ uloha:"Z dlhšej komunikácie vytiahnite dohody, otvorené body a svoj ďalší krok.",
+ p:x=>`Zhrň toto e-mailové vlákno. Chcem vedieť:
+1. o čo ide (2 vety),
+2. čo je dohodnuté,
+3. čo ešte chýba a kto to má dodať,
+4. aký je môj ďalší krok. Som ${x.rola}.
+
+Vlákno:
+${x.vlakno}`,
+ preco:"V dlhom vlákne sa ľahko stratí, kto čo sľúbil. Copilot vytiahne dohody, otvorené body a váš ďalší krok. Vo vlastnej práci pred vložením textu odstráňte osobné údaje alebo použite Copilota priamo v Outlooku, ak to vaša firma povoľuje.",
+ v:{
+  hr:{rola:"HR špecialista", vlakno:`---
+Od: vedúci výroby, 6. 10.
+Ahoj, od novembra potrebujem na linku 3 štyroch nových operátorov do trojzmennej prevádzky. Nástup ideálne 3. 11. Vieš to zabezpečiť?
+---
+Od: HR, 7. 10.
+Ahoj, inzerát spustíme ešte dnes. Pošli mi prosím, aké skúsenosti majú mať a či môžu nastúpiť aj ľudia bez praxe.
+---
+Od: vedúci výroby, 9. 10.
+Prax netreba, zaškolíme ich. Dvaja by mali vedieť jazdiť s vysokozdvižným vozíkom. Pohovory môžem robiť v utorky a štvrtky.
+---
+Od: personálna agentúra, 10. 10.
+Dobrý deň, máme troch vhodných kandidátov, jeden má preukaz na vysokozdvižný vozík. Na pohovor ich vieme poslať tento štvrtok. Potrebujeme potvrdiť termín a podpísať objednávku služieb.`},
+  fin:{rola:"pracovník finančného oddelenia", vlakno:`---
+Od: dodávateľ energií, 6. 10.
+Dobrý deň, posielame vyúčtovanie za 3. štvrťrok. Nedoplatok je 14 860 € so splatnosťou 25. 10.
+---
+Od: finančné oddelenie, 7. 10.
+Dobrý deň, nedoplatok je o 40 % vyšší ako vlani. Prosíme o rozpis spotreby po odberných miestach.
+---
+Od: dodávateľ energií, 9. 10.
+Rozpis pošleme do 15. 10. Ak potrebujete splátkový kalendár, žiadosť treba poslať do 20. 10.
+---
+Od: vedúci výroby, 10. 10.
+Ahojte, v auguste sme mali dva týždne nepretržitú prevádzku pre veľkú zákazku. To môže byť dôvod. Rozpis po linkách vám viem dať z nášho merania.`},
+  udr:{rola:"vedúci údržby", vlakno:`---
+Od: majster lisovne, 6. 10.
+Lis 4 opäť strácal tlak, tretíkrát za mesiac. Operátori musia zastavovať a čakať. Dá sa s tým niečo spraviť natrvalo?
+---
+Od: údržba, 7. 10.
+Pozreli sme hydraulický agregát. Čerpadlo je opotrebované, odporúčame ho vymeniť. Pošleme dopyt dodávateľovi.
+---
+Od: dodávateľ hydrauliky, 9. 10.
+Nové čerpadlo stojí 6 400 €, dodanie do 4 týždňov. Repasované vieme dodať do 1 týždňa za 3 100 € so zárukou 6 mesiacov.
+---
+Od: vedúci výroby, 10. 10.
+Do konca roka nemôžeme mať lis dlhšie odstavený, máme veľkú zákazku. Výmena musí byť cez víkend. Kto rozhodne, ktoré čerpadlo berieme?`},
+  nak:{rola:"nákupca", vlakno:`---
+Od: dodávateľ Plastix, 6. 10.
+Dobrý deň, od 1. 12. zvyšujeme ceny plastových krytov o 9 % pre vyššie ceny granulátu.
+---
+Od: nákup, 7. 10.
+Dobrý deň, zvýšenie je nad rámec indexácie dohodnutej v zmluve. Prosíme o rozpis nákladov a návrh pri ročnom objeme 40 000 ks.
+---
+Od: dodávateľ Plastix, 9. 10.
+Pri ročnom objeme vieme zvýšenie znížiť na 6 %. Rozpis nákladov je obchodné tajomstvo, môžeme vám ho ukázať na stretnutí.
+---
+Od: kvalita, 10. 10.
+Upozorňujem, že nový dodávateľ by musel prejsť schválením vzoriek u zákazníka, trvá to asi 3 mesiace.`},
+  log:{rola:"logistik", vlakno:`---
+Od: zákazník Elbau, 6. 10.
+Dobrý deň, od novembra potrebujeme dodávky dvakrát týždenne namiesto raz týždenne. Mesačné množstvo ostáva rovnaké.
+---
+Od: logistika, 7. 10.
+Dobrý deň, preveríme kapacitu dopravcu aj skladu. Môžete potvrdiť dni a časové okná vykládky?
+---
+Od: zákazník Elbau, 9. 10.
+Utorok a piatok, vykládka medzi 6:00 a 10:00. Palety najviac 1,2 m vysoké.
+---
+Od: dopravca, 10. 10.
+Dve jazdy týždenne zvládneme, cena za jazdu ostáva. V piatok ráno však nemáme vodiča, navrhujeme štvrtok.`},
+  sal:{rola:"obchodník", vlakno:`---
+Od: zákazník Agromont, 6. 10.
+Dobrý deň, ďakujeme za ponuku na konzoly. Cena je pre nás o 7 % vyššia ako od súčasného dodávateľa. Viete ju upraviť?
+---
+Od: obchod, 7. 10.
+Dobrý deň, pri ročnom objeme nad 20 000 ks vieme ponúknuť zľavu 4 %. Dodávame do 2 týždňov, súčasný dodávateľ do 5.
+---
+Od: zákazník Agromont, 9. 10.
+Ročný objem bude okolo 25 000 ks. Pred rozhodnutím potrebujeme vzorky a návštevu vašej výroby.
+---
+Od: výroba, 10. 10.
+Vzorky vieme pripraviť do 3 týždňov. Návšteva je možná v utorok alebo v stredu, nie však počas inventúry 20. a 21. 11.`},
+  vyr:{rola:"vedúci výroby", vlakno:`---
+Od: kvalita, 6. 10.
+Na linke 2 sme z nočnej zmeny našli 60 dielov s nesprávnym rozmerom. Diely sú v karanténe.
+---
+Od: majster nočnej zmeny, 7. 10.
+Operátor po výmene nástroja neurobil kontrolu prvého kusu. Na linke bol prvý týždeň.
+---
+Od: technológ, 9. 10.
+Inštrukcia na výmenu nástroja nemá kontrolu prvého kusu ako samostatný krok. Upravím ju do konca týždňa.
+---
+Od: HR, 10. 10.
+Nových operátorov zaškoľujeme podľa plánu majstra. Záznam o zaškolení tohto operátora nemáme.`},
+  pla:{rola:"plánovač", vlakno:`---
+Od: obchod, 6. 10.
+Zákazník Termis chce zákazku 500 ks presunúť z decembra na 15. 11. Ide o nový projekt, je pre nás dôležitý.
+---
+Od: plánovanie, 7. 10.
+Linka 1 je do 20. 11. plná. Presun je možný len pri posune zákazky Agromont alebo pri nadčasoch v sobotu.
+---
+Od: nákup, 9. 10.
+Materiál pre Termis vieme mať najskôr 10. 11., ak objednávku odošleme do piatka.
+---
+Od: vedúci výroby, 10. 10.
+Dve soboty vieme dať, potrebujem však potvrdenie do stredy, aby som zabezpečil ľudí.`},
+  kva:{rola:"pracovník kvality", vlakno:`---
+Od: zákazník Elbau, 6. 10.
+Dobrý deň, v dodávke 2210 sme našli 30 krytov so škrabancami. Žiadame triedenie u nás do 48 hodín a správu 8D.
+---
+Od: kvalita, 7. 10.
+Dobrý deň, reklamáciu prijímame. Triedenie u vás zajtra zabezpečí externá firma. Na našom sklade sme zablokovali 400 ks z rovnakej šarže.
+---
+Od: externá triediaca firma, 9. 10.
+U zákazníka sme pretriedili 1 200 ks, chybných bolo 42 ks. Fotografie a protokol posielame v prílohe.
+---
+Od: výroba, 10. 10.
+Príčinou môže byť nový spôsob balenia, diely sa v boxe dotýkajú. Balenie sme zmenili minulý mesiac na žiadosť logistiky.`}
+ }},
+
+{id:"7.2", m:7, kde:"Copilot Chat", nazov:"Odpoveď z mojich poznámok",
+ uloha:"Nadväzuje na 7.1. Odpoveď si najprv napíšete vlastnými slovami, pokojne heslovite. Copilot ju len učeše.",
+ p:x=>`Prepíš moje poznámky na zdvorilý e-mail ${x.komu}. Zachovaj všetky fakty, nič nepridávaj.
+
+Moje poznámky:
+${x.pozn}
+
+Tón: vecný a ľudský. Najviac 120 slov. Navrhni aj predmet e-mailu.`,
+ preco:"Vy poznáte situáciu, Copilot vie dobre formulovať. Keď mu dáte všetky fakty, výsledok je presný a nemusíte ho opravovať. Keby ste ho nechali písať bez podkladov, doplní si podrobnosti, ktoré nemusia platiť.",
+ v:{
+  hr:{komu:"personálnej agentúre", pozn:`- dakujem za kandidatov
+- stvrtok pohovory potvrdzujem, 9:00, 10:00, 11:00, vratnica, pytat sa na [meno]
+- objednavku podpise vedenie do stredy
+- prednost ma kandidat s preukazom na VZV, treba aj kopiu preukazu
+- potrebujeme este 1 dalsieho kandidata`},
+  fin:{komu:"dodávateľovi energií", pozn:`- dakujeme za vyuctovanie
+- rozpis spotreby stale nemame, termin bol 15.10
+- ziadame splatkovy kalendar, 3 splatky
+- ziadost posielame v prilohe
+- kontakt [meno, telefón]`},
+  udr:{komu:"vedúcemu výroby", pozn:`- berieme repasovane cerpadlo, nove objednavame na januar
+- vymena v sobotu [dátum] od 6:00, cca 8 hodin
+- lis v piatok po nocnej zmene vyprazdnit a vycistit
+- v pondelok rano skusobna prevadzka s technikom
+- otazky na mna [telefón]`},
+  nak:{komu:"dodávateľovi Plastix", pozn:`- dakujeme za ponuku 6 %
+- pre nas je max 4 % podla indexacie v zmluve
+- stretnutie navrhujeme [dátum] u nas, prosime priniest rozpis nakladov
+- pri dohode sme ochotni podpisat zmluvu na 2 roky
+- odpoved potrebujeme do [dátum]`},
+  log:{komu:"zákazníkovi Elbau", pozn:`- dve dodavky tyzdenne od novembra potvrdzujeme
+- utorok ok, piatok nevieme, navrhujeme stvrtok
+- vykladka 6:00-10:00 ok, vyska paliet ok
+- cena za jazdu bez zmeny
+- prosime potvrdit stvrtok do [dátum]`},
+  sal:{komu:"zákazníkovi Agromont", pozn:`- dakujem za info k objemu
+- pri 25 000 ks plati zlava 4 %
+- vzorky do 3 tyzdnov, presny datum poslem
+- navsteva vyroby utorok [dátum] alebo streda [dátum], nie 20. a 21.11
+- prosim vybrat termin a pocet ludi`},
+  vyr:{komu:"majstrom a technológovi", pozn:`- chyba na linke 2, 60 dielov, karantena
+- pricina: chybala kontrola prveho kusu, operator novy
+- technolog upravi instrukciu do piatka
+- majstri do [dátum] skontroluju zaznamy o zaskoleni vsetkych novych operatorov
+- od pondelka kontrola prveho kusu povinne s podpisom majstra`},
+  pla:{komu:"obchodnému oddeleniu", pozn:`- presun Termis na 15.11 je mozny
+- podmienka: 2 soboty nadcas, potvrdit veduceho vyroby do stredy
+- material objednat do piatka, nakup potvrdil
+- Agromont ostava v plane bez zmeny
+- ak nepotvrdite do stredy, ostava december`},
+  kva:{komu:"zákazníkovi Elbau", pozn:`- dakujeme za trpezlivost
+- triedenie hotove, 1 200 ks, chybnych 42, protokol v prilohe
+- pravdepodobna pricina: nove balenie, diely sa dotykaju
+- docasne opatrenie: prekladovy papier medzi dielmi od [dátum]
+- sprava 8D do [dátum]`}
+ }},
+
+{id:"7.3", m:7, kde:"Copilot Chat", nazov:"Tri stupne pripomienky",
+ uloha:"Pripravte si tri šablóny naraz a porovnajte, ako sa mení tón.",
+ p:x=>`Napíš tri verzie e-mailovej pripomienky pre ${x.koho}, ${x.sit}:
+1. ${x.s1||"prvá pripomienka: priateľská, predpokladáme, že zabudol"},
+2. ${x.s2||`druhá pripomienka po ${x.dni}: dôraznejšia, jasne uvádza dôsledky`},
+3. ${x.s3||"posledná výzva: formálna, s termínom"}.
+
+Údaje: ${x.udaje}.
+
+${x.dosl?`Dôsledky neopisuj vlastnými slovami, vlož ${x.dosl}.`:x.extra}
+
+Každá verzia najviac 100 slov.`,
+ preco:"Tri verzie naraz ukážu, ako sa mení tón pri rovnakom obsahu. Dôsledky Copilot nepozná, preto ich necháva na doplnenie z vašich pravidiel. Hotové texty si uložte ako šablóny v Outlooku.",
+ v:{
+  hr:{koho:"zamestnanca", sit:"ktorý ešte neabsolvoval povinné školenie BOZP", dni:"7 dňoch", udaje:"názov školenia [názov], termín bol [dátum], odkaz na prihlásenie [odkaz]", dosl:"[dôsledky podľa internej smernice]"},
+  fin:{koho:"zákazníka", sit:"ktorý nezaplatil faktúru", dni:"14 dňoch", udaje:"dlžná suma [suma], splatnosť bola [dátum], číslo faktúry [číslo], platobné údaje [IBAN, variabilný symbol]", dosl:"[dôsledky podľa zmluvy]"},
+  udr:{koho:"vedúceho oddelenia", sit:"ktorý ešte nenahlásil zariadenia na povinnú revíziu", dni:"5 dňoch", udaje:"zoznam zariadení [zoznam], termín nahlásenia bol [dátum], formulár [odkaz]", dosl:"[dôsledky podľa predpisov BOZP]"},
+  nak:{koho:"dodávateľa", sit:"ktorý ešte nepotvrdil objednávku", dni:"3 dňoch", udaje:"číslo objednávky [číslo], dátum odoslania [dátum], požadovaný termín dodania [dátum]", dosl:"[dôsledky podľa rámcovej zmluvy]"},
+  log:{koho:"zákazníka", sit:"ktorý ešte nevrátil vratné palety", dni:"14 dňoch", udaje:"počet paliet [počet], dodací list [číslo], termín vrátenia bol [dátum]", dosl:"[dôsledky podľa zmluvy]"},
+  sal:{koho:"zákazníka", sit:"ktorý nereagoval na cenovú ponuku", s1:"prvá pripomienka: priateľská, predpokladáme, že nemal čas", s2:"druhá pripomienka po 7 dňoch: pridá jednu novú užitočnú informáciu", s3:"posledná správa: zdvorilo uzavrie komunikáciu a nechá dvere otvorené", udaje:"ponuka [číslo] na [produkt], odoslaná [dátum], platná do [dátum]", extra:"Na zákazníka netlač a neponúkaj zľavu."},
+  vyr:{koho:"majstra", sit:"ktorý ešte neodovzdal záznamy zo zaškolenia nových operátorov", dni:"3 dňoch", udaje:"počet operátorov [počet], termín bol [dátum], formulár [odkaz]", dosl:"[dôsledky podľa internej smernice]"},
+  pla:{koho:"kolegu z obchodu", sit:"ktorý ešte neposlal predpoveď objednávok na budúci mesiac", dni:"2 dňoch", udaje:"zákazníci [zoznam], termín bol [dátum], šablóna [odkaz]", dosl:"[dôsledky pre plán výroby]"},
+  kva:{koho:"dodávateľa", sit:"ktorý ešte neposlal správu 8D k reklamácii", dni:"5 dňoch", udaje:"číslo reklamácie [číslo], dátum oznámenia [dátum], dohodnutý termín [dátum]", dosl:"[dôsledky podľa zmluvy o kvalite]"}
+ }},
+
+{id:"7.4", m:7, kde:"Copilot Chat", nazov:"Automatická odpoveď počas neprítomnosti",
+ uloha:"Copilot Chat automatickú odpoveď sám nenastaví. Pripraví však text aj postup.",
+ p:`Napíš text automatickej odpovede počas mojej neprítomnosti od [dátum] do [dátum]. Uveď, kto ma zastupuje: [meno, e-mail], a na koho sa obrátiť v naliehavých prípadoch: [kontakt].
+
+Priprav dve verzie:
+1. pre kolegov vo firme, krátku,
+2. pre externých, formálnejšiu, v slovenčine aj v angličtine.
+
+Potom mi krok za krokom opíš, ako automatickú odpoveď nastavím v novom Outlooku.`,
+ preco:"Rozdelenie na internú a externú verziu je v Outlooku bežné a každá má iný tón. Postup nastavenia si overte, rozhranie Outlooku sa občas mení."},
+
+{id:"7.5", m:7, kde:"Copilot Chat", nazov:"Zdvorilé odmietnutie termínu",
+ uloha:"Doplňte skutočný alebo vymyslený dôvod a nový termín.",
+ p:`Kolega z iného oddelenia ma požiadal o podklady do piatka. Nestihnem to, lebo [dôvod]. Viem ich dodať do [nový termín].
+
+Napíš krátku a zdvorilú odpoveď, ktorá:
+- jasne povie, že piatok nestihnem,
+- ponúkne nový termín,
+- navrhne, čo mu viem poslať už v piatok, aby nečakal naprázdno,
+- sa nebude zbytočne ospravedlňovať.
+
+Najviac 80 slov.`,
+ preco:"Odmietnuť slušne je ťažšie ako súhlasiť. Copilot pomôže nájsť tón, ktorý je jasný a zároveň ústretový. Bod s čiastočným riešením mení odmietnutie na dohodu."}
+];
+
+
+const PODKLADY = {
+ "hr": {
+  "zip": "podklady/Podklady_Ludske_zdroje.zip",
+  "dok": "podklady/hr/01_Pracovny_poriadok.docx",
+  "dokNazov": "Pracovný poriadok",
+  "oprava": "podklady/hr/02_Text_na_opravu.docx",
+  "vlakno": "podklady/hr/03_Emailove_vlakno.docx",
+  "excel": "podklady/hr/04_Cvicny_Excel.xlsx",
+  "clanok22": 4,
+  "harok": "Nadčasy"
+ },
+ "fin": {
+  "zip": "podklady/Podklady_Financie.zip",
+  "dok": "podklady/fin/01_Smernica_cestovne_nahrady.docx",
+  "dokNazov": "Smernica o cestovných náhradách",
+  "oprava": "podklady/fin/02_Text_na_opravu.docx",
+  "vlakno": "podklady/fin/03_Emailove_vlakno.docx",
+  "excel": "podklady/fin/04_Cvicny_Excel.xlsx",
+  "clanok22": 8,
+  "harok": "Výdavky"
+ },
+ "udr": {
+  "zip": "podklady/Podklady_Udrzba.zip",
+  "dok": "podklady/udr/01_Navod_udrzba_lis_HL250.docx",
+  "dokNazov": "Návod na obsluhu a údržbu: hydraulický lis HL 250",
+  "oprava": "podklady/udr/02_Text_na_opravu.docx",
+  "vlakno": "podklady/udr/03_Emailove_vlakno.docx",
+  "excel": "podklady/udr/04_Cvicny_Excel.xlsx",
+  "clanok22": 2,
+  "harok": "Poruchy"
+ },
+ "nak": {
+  "zip": "podklady/Podklady_Nakup.zip",
+  "dok": "podklady/nak/01_Ramcova_zmluva_dodavatel.docx",
+  "dokNazov": "Rámcová kúpna zmluva",
+  "oprava": "podklady/nak/02_Text_na_opravu.docx",
+  "vlakno": "podklady/nak/03_Emailove_vlakno.docx",
+  "excel": "podklady/nak/04_Cvicny_Excel.xlsx",
+  "clanok22": 8,
+  "harok": "Objednávky"
+ },
+ "log": {
+  "zip": "podklady/Podklady_Logistika.zip",
+  "dok": "podklady/log/01_Obchodne_podmienky_dopravcu.docx",
+  "dokNazov": "Obchodné podmienky prepravy",
+  "oprava": "podklady/log/02_Text_na_opravu.docx",
+  "vlakno": "podklady/log/03_Emailove_vlakno.docx",
+  "excel": "podklady/log/04_Cvicny_Excel.xlsx",
+  "clanok22": 5,
+  "harok": "Zásielky"
+ },
+ "sal": {
+  "zip": "podklady/Podklady_Sales.zip",
+  "dok": "podklady/sal/01_Obchodne_podmienky_predaja.docx",
+  "dokNazov": "Všeobecné obchodné podmienky predaja",
+  "oprava": "podklady/sal/02_Text_na_opravu.docx",
+  "vlakno": "podklady/sal/03_Emailove_vlakno.docx",
+  "excel": "podklady/sal/04_Cvicny_Excel.xlsx",
+  "clanok22": 6,
+  "harok": "Predaj"
+ },
+ "vyr": {
+  "zip": "podklady/Podklady_Vyroba.zip",
+  "dok": "podklady/vyr/01_Pracovna_instrukcia_PI-L2-07.docx",
+  "dokNazov": "Pracovná inštrukcia PI-L2-07",
+  "oprava": "podklady/vyr/02_Text_na_opravu.docx",
+  "vlakno": "podklady/vyr/03_Emailove_vlakno.docx",
+  "excel": "podklady/vyr/04_Cvicny_Excel.xlsx",
+  "clanok22": 6,
+  "harok": "Výroba"
+ },
+ "pla": {
+  "zip": "podklady/Podklady_Planovanie.zip",
+  "dok": "podklady/pla/01_Ramcova_zmluva_zakaznik.docx",
+  "dokNazov": "Rámcová zmluva o dodávkach",
+  "oprava": "podklady/pla/02_Text_na_opravu.docx",
+  "vlakno": "podklady/pla/03_Emailove_vlakno.docx",
+  "excel": "podklady/pla/04_Cvicny_Excel.xlsx",
+  "clanok22": 4,
+  "harok": "Zákazky"
+ },
+ "kva": {
+  "zip": "podklady/Podklady_Kvalita.zip",
+  "dok": "podklady/kva/01_Prirucka_kvality_dodavatelov.docx",
+  "dokNazov": "Príručka kvality pre dodávateľov",
+  "oprava": "podklady/kva/02_Text_na_opravu.docx",
+  "vlakno": "podklady/kva/03_Emailove_vlakno.docx",
+  "excel": "podklady/kva/04_Cvicny_Excel.xlsx",
+  "clanok22": 5,
+  "harok": "Chyby"
+ }
+};
+const PODKLAD_ULOHY = {
+ "2.2": p=>[{f:p.dok, t:`Odsek je z článku ${p.clanok22} tohto dokumentu.`}],
+ "4.1": p=>[{f:p.oprava, t:"Dlhší text na opravu. Nahrajte ho a napíšte: Oprav chyby v priloženom dokumente a pod text vypíš zoznam zmien."}],
+ "4.2": p=>[{f:p.dok, t:"Fiktívny dokument na nahratie do Copilota, ak nemáte vlastný."}],
+ "6.1": p=>[{f:p.excel, t:`Vzorec vyskúšajte na hárku ${p.harok}. Výsledok overte filtrom v Exceli.`}],
+ "6.2": p=>[{f:p.excel, t:"Vzorec je na hárku Vzorec v stĺpci E. Všimnite si riadky 10 a 12."}],
+ "6.3": p=>[{f:p.excel, t:"Náročnejšia verzia: nahrajte súbor a namiesto tabuľky v prompte napíšte: Analyzuj hárok Analýza v priloženom súbore."}],
+ "6.4": p=>[{f:p.excel, t:"Postup vyskúšajte na hárku Termíny."}],
+ "6.5": p=>[{f:p.excel, t:"Na hárku Mená je 15 nejednotne zapísaných mien."}],
+ "7.1": p=>[{f:p.vlakno, t:"Dlhšie vlákno so 7 správami. Nahrajte ho a text vlákna v prompte nahraďte vetou: Vlákno je v priloženom dokumente."}]
+};
+
+
+const stav={m:"all",d:null};
+const ODD_KEYS=ODD.map(o=>o.k);
+
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+// jednopísmenové predložky a spojky nenechať na konci riadka
+function nb(s){return s.replace(/(^|[\s(„])([aiouvkszAIOUVKSZ]) /g,"$1$2 ")}
+function txt(s){return nb(esc(s))}
+function promptHtml(s){return nb(esc(s)).replace(/\[([^\]]+)\]/g,'<span class="ph">[$1]</span>')}
+function hodnota(val,x){return typeof val==="function"?val(x):val}
+
+async function kopiruj(text,btn,povodny){
+ try{await navigator.clipboard.writeText(text)}
+ catch(e){const t=document.createElement("textarea");t.value=text;t.style.position="fixed";t.style.opacity="0";document.body.appendChild(t);t.select();document.execCommand("copy");t.remove()}
+ btn.textContent="Skopírované";btn.classList.add("ok");
+ setTimeout(()=>{btn.textContent=povodny;btn.classList.remove("ok")},1600);
+}
+
+function karta(u,d){
+ const x=u.v?u.v[d]:null;
+ const r={nazov:hodnota(u.nazov,x),uloha:hodnota(u.uloha,x),prompt:hodnota(u.p,x),dalej:hodnota(u.dalej,x),preco:hodnota(u.preco,x)};
+ const oddL=ODD.find(o=>o.k===d).l;
+ const a=document.createElement("article");a.className="ul";a.id="u"+u.id.replace(".","-");
+ let h=`<div class="uhead"><span class="id">${u.id}</span><h3>${txt(r.nazov)}</h3>
+  ${u.v?`<span class="badge odd">${txt(oddL)}</span>`:`<span class="badge">Pre všetky oddelenia</span>`}<span class="badge">${txt(u.kde)}</span></div>
+  <span class="lab">Úloha</span><p>${txt(r.uloha)}</p>
+  <span class="lab">Prompt</span>
+  <div class="pbox"><pre>${promptHtml(r.prompt)}</pre><div class="akcie"><button class="copy" type="button">Kopírovať</button></div></div>`;
+ if(r.dalej&&r.dalej.length){
+  h+=`<span class="lab">Pokračujte v tom istom chate</span><ul class="dalej">`+
+   r.dalej.map((t,i)=>`<li><span>${promptHtml(t)}</span><button type="button" data-i="${i}">Kopírovať</button></li>`).join("")+`</ul>`;
+ }
+ const pf=PODKLAD_ULOHY[u.id];
+ if(pf){const pl=pf(PODKLADY[d]);h+=`<span class="lab">Podklad</span><ul class="podk">`+pl.map(p=>`<li><a href="${p.f}" download>${esc(p.f.split("/").pop())}</a><span>${txt(p.t)}</span></li>`).join("")+`</ul>`;}
+ h+=`<span class="lab">Prečo to funguje</span><p class="preco">${txt(r.preco)}</p>`;
+ a.innerHTML=h;
+ a.querySelector(".copy").addEventListener("click",e=>kopiruj(r.prompt,e.currentTarget,"Kopírovať"));
+ a.querySelectorAll(".dalej button").forEach(b=>b.addEventListener("click",e=>kopiruj(r.dalej[+b.dataset.i],e.currentTarget,"Kopírovať")));
+ return a;
+}
+
+function vykresli(){
+ const o=document.getElementById("obsah");o.innerHTML="";
+ if(!stav.d){
+  o.innerHTML=`<div class="vyzva"><b>Najprv si vyberte oddelenie</b>Prompty sa zobrazia s príkladmi z vašej práce.</div>`;
+  filtruj(false);return;
+ }
+ const pk=PODKLADY[stav.d],ol=ODD.find(o=>o.k===stav.d).l;
+ const z=document.createElement("div");z.className="zip";
+ z.innerHTML=`<a class="btn" href="${pk.zip}" download>Stiahnuť podklady: ${txt(ol)} (ZIP)</a><span>${txt(pk.dokNazov)}, text na opravu, e-mailové vlákno a cvičný Excel pre fiktívnu firmu Metalex s.r.o. Jednotlivé súbory sú aj pri úlohách.</span>`;
+ o.appendChild(z);
+ MODULY.forEach(m=>{
+  const s=document.createElement("section");s.className="modul";s.id="modul"+m.n;s.dataset.m=m.n;
+  s.innerHTML=`<div class="mhead"><span class="num">${m.n}</span><h2>${txt(m.nazov)}</h2><p>${txt(m.popis)}</p></div>`;
+  ULOHY.filter(u=>u.m===m.n).forEach(u=>s.appendChild(karta(u,stav.d)));
+  o.appendChild(s);
+ });
+ filtruj(false);
+}
+
+function zvyrazniOdd(){
+ document.querySelectorAll("#tiles .tile,#fOdd .chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===stav.d));
+ document.getElementById("vyber").classList.toggle("ok",!!stav.d);
+}
+
+function nastavOdd(k,posun){
+ stav.d=k;
+ try{localStorage.setItem("copilot1-oddelenie",k)}catch(e){}
+ try{const u=new URL(location.href);u.searchParams.set("oddelenie",k);history.replaceState(null,"",u)}catch(e){}
+ zvyrazniOdd();vykresli();
+ if(posun)skocNaObsah();
+}
+
+function skocNaObsah(){
+ const t=document.getElementById("obsah");
+ const y=t.getBoundingClientRect().top+window.scrollY-document.querySelector("nav.filtre").offsetHeight-10;
+ window.scrollTo({top:y,behavior:"smooth"});
+}
+
+function postav(){
+ const tl=document.getElementById("tiles"),fo=document.getElementById("fOdd");
+ ODD.forEach(o=>{
+  const t=document.createElement("button");t.type="button";t.className="tile";t.dataset.k=o.k;t.textContent=o.l;
+  t.addEventListener("click",()=>nastavOdd(o.k,true));tl.appendChild(t);
+  const c=document.createElement("button");c.type="button";c.className="chip";c.dataset.k=o.k;c.textContent=o.l;
+  c.addEventListener("click",()=>{const bolo=!stav.d;nastavOdd(o.k,false);if(bolo||window.scrollY>document.getElementById("obsah").offsetTop)skocNaObsah()});fo.appendChild(c);
+ });
+ const fm=document.getElementById("fModul"),poc=document.getElementById("pocet");
+ [{k:"all",l:"Všetky"}].concat(MODULY.map(m=>({k:String(m.n),l:m.kratko,n:m.n}))).forEach(x=>{
+  const b=document.createElement("button");b.type="button";b.className="chip";b.dataset.k=x.k;
+  b.innerHTML=x.n?`<b>${x.n}</b>${txt(x.l)}`:txt(x.l);b.setAttribute("aria-pressed",x.k==="all");
+  b.addEventListener("click",()=>{stav.m=x.k;filtruj(true)});fm.insertBefore(b,poc);
+ });
+ let start=null;
+ try{start=new URLSearchParams(location.search).get("oddelenie")}catch(e){}
+ if(!ODD_KEYS.includes(start)){try{start=localStorage.getItem("copilot1-oddelenie")}catch(e){start=null}}
+ if(ODD_KEYS.includes(start)){stav.d=start}
+ zvyrazniOdd();vykresli();
+}
+
+function filtruj(posun){
+ document.querySelectorAll("#fModul .chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===stav.m));
+ let n=0;
+ document.querySelectorAll("section.modul").forEach(s=>{
+  const ok=stav.m==="all"||s.dataset.m===stav.m;s.hidden=!ok;if(ok)n+=s.querySelectorAll("article.ul").length;
+ });
+ const sl=n===1?"úloha":(n>=2&&n<=4?"úlohy":"úloh");
+ document.getElementById("pocet").textContent=stav.d?`Zobrazené: ${n} ${sl}`:"";
+ if(posun&&stav.d)skocNaObsah();
+}
+postav();
+</script>
+</body>
+</html>
